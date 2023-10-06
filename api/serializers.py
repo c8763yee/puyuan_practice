@@ -14,5 +14,6 @@ def create_serializer(apply_model: Model, apply_fields: str | list[str] = ALL_FI
             model = apply_model
             fields = apply_fields
             read_only_fields = apply_ro_fields
+            extra_kwargs = kwargs
 
     return Serializer
