@@ -11,7 +11,7 @@ from puyuan.const import SALT
 
 
 MINUTE = 60
-TOKEN_EXPIRE_TIME = 30 * MINUTE
+TOKEN_EXPIRE_TIME = 30 * MINUTE  # 30 minutes
 
 
 def custom_hash(password):
@@ -32,14 +32,15 @@ class BaseUser(AbstractUser):
         app_label = 'auths'
 
 
-class Auth(BaseUser):
-    ID = models.AutoField(primary_key=True, unique=True)
+class UserProfile(BaseUser):
+
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=20, unique=False)
-    USERNAME_FIELD = 'ID'
-    verified = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_forgot_password = models.BooleanField(default=False)
+    USERNAME_FIELD = 'id'
 
-    def generate_token(self):
+    def generate_token(self) -> str:
         Token.objects.filter(user=self).delete()
 
         token = Token.objects.create(
@@ -53,16 +54,40 @@ class Auth(BaseUser):
         return super().check_password(custom_hash(raw_password))
 
     @staticmethod
-    def get_user_by_token(token_key):
+    def get_user_by_token(token_key) -> BaseUser:
 
         token = Token.objects.get(key=token_key)
         if timezone.now() - token.created > timedelta(minutes=TOKEN_EXPIRE_TIME):
-            logger.info("Token expired")
+            logger.warning("Token expired")
             token.delete()
-            return None
-        return token.user
+            raise Token.DoesNotExist('Token expired')
+        user = token.user
+        if user.is_active is False:
+            logger.warning("User not verified")
+            raise UserProfile.DoesNotExist('User not verified')
+
+        return user
 
 
 class VerificationCode(models.Model):
-    user = models.ForeignKey(Auth, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     code = models.CharField(max_length=6)
+
+
+class News(models.Model):
+    member_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    group = models.IntegerField()
+    title = models.CharField(max_length=100)
+    message = models.CharField(max_length=1000)
+    pushed_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Record(models.Model):
+    UID = models.AutoField(primary_key=True, unique=True)
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, unique=False)
+    id = models.IntegerField()
+    type = models.IntegerField()
+    relation_type = models.IntegerField()

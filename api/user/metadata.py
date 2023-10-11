@@ -12,7 +12,7 @@ class UserMetadata:
                 "GET": {
                     "input": {
                     },
-                    "output": clone_output(**{
+                    "output": clone_output({
                         "id": 1,
                         "name": "王小明",
                         "account": "test@gmail.ocm",
@@ -107,7 +107,7 @@ class UserMetadata:
                 }
             }
 
-    class UserDefault(BaseMetadata):
+    class Default(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {
@@ -142,7 +142,7 @@ class UserMetadata:
                 }
             }
 
-    class UserSetting(BaseMetadata):
+    class Setting(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {
@@ -163,7 +163,7 @@ class UserMetadata:
                 }
             }
 
-    class UploadBloodPressure(BaseMetadata):
+    class BloodPressure(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {

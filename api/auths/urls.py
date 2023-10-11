@@ -29,7 +29,9 @@ password_router.register('reset', AuthView.ResetPassword,
 router = DefaultRouter()
 router.register('news', AuthView.News, basename='news')
 router.register('share', AuthView.Share, basename='share')
-router.register(r'share/(?P<Type>\w+)', AuthView.CheckShare, basename='share')
+
+router.register(r'share/(?P<Type>\d+)',
+                AuthView.CheckShare, basename='check_share')
 
 router.registry.extend(auth_router.registry)
 router.registry.extend(verification_router.registry)

@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'api',
     'api.auths',
+    'api.user',
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.admin',
@@ -129,7 +132,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',  # <-- And here
     ],
 }
-AUTH_USER_MODEL = 'auths.Auth'
+AUTH_USER_MODEL = 'auths.UserProfile'
 
 LOGGING = {
     "version": 1,
@@ -164,3 +167,12 @@ LOGGING = {
         },
     }
 }
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'rrrrr4413@gmail.com'
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

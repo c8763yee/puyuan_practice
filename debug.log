@@ -2994,3 +2994,38 @@ DEBUG 2023-10-06 20:00:12,482 views 96980 140389956847296 token: b6336d884aafb34
 DEBUG 2023-10-06 20:00:12,793 views 96980 140389956847296 token: eeeed6e7fe7022bfeb755e910cf7aec1eeb5bb5c
 DEBUG 2023-10-06 20:00:58,933 views 96980 140389956847296 token: 881473b56f4c0255454142474a20b3aeffbecc8e
 ERROR 2023-10-06 20:01:35,471 views 96980 140389956847296 login failed: user: test@gmail.com
+INFO 2023-10-11 19:07:43,407 views 57133 139787670492864 verification code: 43916
+INFO 2023-10-11 19:10:48,665 views 57605 140224929076928 verification code: 45739
+DEBUG 2023-10-11 19:11:18,489 views 57605 140224929076928 token: 5a9c9cca072d84e632ed03bf41cbdfc14465b09c
+INFO 2023-10-11 19:13:03,645 models 57776 140369288128192 User not verified
+INFO 2023-10-11 19:14:53,066 models 58036 139876047414976 User not verified
+INFO 2023-10-11 19:15:23,559 models 58110 139691953120960 User not verified
+INFO 2023-10-11 19:16:34,142 models 58222 140183584696000 User not verified
+INFO 2023-10-11 19:18:09,645 models 58349 140237102347968 User not verified
+INFO 2023-10-11 19:19:52,808 models 58578 140546120996544 User not verified
+ERROR 2023-10-11 19:38:11,071 views 60329 140321372141248 register failed: user: test@gmail.com already exists
+ERROR 2023-10-11 19:40:06,210 views 60570 139650942424768 register failed: user not exist
+ERROR 2023-10-11 19:40:31,890 views 60650 140219996899008 register failed: user not exist
+INFO 2023-10-11 19:41:02,618 views 60650 140219996899008 verification code: 57362
+DEBUG 2023-10-11 19:41:22,021 views 60650 140219996899008 token: ec2e3a746bb7e29b337da66368419e56ceeeccc2
+ERROR 2023-10-11 19:50:20,115 views 61734 140239354689216 login failed: password is wrong: User23209999
+INFO 2023-10-11 19:52:24,929 views 61734 140239354689216 verification code: 53875
+INFO 2023-10-11 20:12:57,903 views 64406 140429714921152 verification code: 39834
+INFO 2023-10-11 20:37:48,978 views 66296 139696928143040 verification code: 59119
+ERROR 2023-10-11 20:38:56,772 views 66296 139696928143040 register failed: {'user': [ErrorDetail(string='This field is required.', code='required')], 'ID': [ErrorDetail(string='This field is required.', code='required')], 'Type': [ErrorDetail(string='This field is required.', code='required')]}
+ERROR 2023-10-11 20:44:41,104 views 67027 139883374499520 register failed: {'ID': [ErrorDetail(string='This field is required.', code='required')], 'Type': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2023-10-11 21:27:46,729 views 12240 140081855477440 verification code: 68423
+ERROR 2023-10-11 22:03:48,800 utils 17743 140055650592448 Bearer token not found
+ERROR 2023-10-11 22:10:18,408 utils 18806 140452457625280 Bearer token not found
+ERROR 2023-10-11 22:10:20,239 utils 18806 140452457625280 Bearer token not found
+ERROR 2023-10-11 22:10:25,048 utils 18806 140452457625280 Bearer token not found
+ERROR 2023-10-11 22:15:15,430 utils 19559 139744275953344 register failed: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+ERROR 2023-10-11 22:15:41,574 utils 19639 140360019572416 register failed: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2023-10-11 22:29:00,631 views 22071 140053530035904 verification code: 56323
+ERROR 2023-10-11 23:03:26,528 utils 26191 140605878331072 register failed: {'fcm_id': [ErrorDetail(string='This field is required.', code='required')]}
+ERROR 2023-10-11 23:05:17,170 utils 26430 140183887115968 register failed: {'gender': [ErrorDetail(string='This field is required.', code='required')]}
+ERROR 2023-10-11 23:05:44,284 utils 26530 140409900267200 serializer is not valid: {'gender': [ErrorDetail(string='This field is required.', code='required')]}
+INFO 2023-10-11 23:23:37,086 views 29391 140631993218752 {'name': '王小明', 'birthday': '2023-08-29', 'height': 187, 'weight': '87', 'phone': '0987987987', 'email': 'test@gmail.com', 'gender': True, 'fcm_id': '1234', 'address': '台中市北區三民路三段129號'}
+INFO 2023-10-11 23:26:34,064 views 29608 140559045883584 {'sugar_delta_max': 10.0, 'sugar_delta_min': 1.0, 'sugar_morning_max': 10.0, 'sugar_morning_min': 1.0, 'sugar_evening_max': 10.0, 'sugar_evening_min': 1.0, 'sugar_before_max': 10.0, 'sugar_before_min': 1.0, 'sugar_after_max': 10.0, 'sugar_after_min': 1.0, 'systolic_max': 10, 'systolic_min': 1, 'diastolic_max': 10, 'diastolic_min': 1, 'pulse_max': 10, 'pulse_min': 1, 'weight_max': 10.0, 'weight_min': 1.0, 'bmi_max': 10.0, 'bmi_min': 1.0, 'body_fat_max': 10.0, 'body_fat_min': 1.0}
+INFO 2023-10-11 23:27:14,124 views 29773 139722382796480 {'sugar_delta_max': 10.0, 'sugar_delta_min': 1.0, 'sugar_morning_max': 10.0, 'sugar_morning_min': 1.0, 'sugar_evening_max': 10.0, 'sugar_evening_min': 1.0, 'sugar_before_max': 10.0, 'sugar_before_min': 1.0, 'sugar_after_max': 10.0, 'sugar_after_min': 1.0, 'systolic_max': 10, 'systolic_min': 1, 'diastolic_max': 10, 'diastolic_min': 1, 'pulse_max': 10, 'pulse_min': 1, 'weight_max': 10.0, 'weight_min': 1.0, 'bmi_max': 10.0, 'bmi_min': 1.0, 'body_fat_max': 10.0, 'body_fat_min': 1.0}
+ERROR 2023-10-11 23:53:23,196 utils 33002 140279683995328 serializer is not valid: {'user': [ErrorDetail(string='This field is required.', code='required')]}
