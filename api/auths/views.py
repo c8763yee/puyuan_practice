@@ -56,7 +56,7 @@ class AuthView:
                 logger.error(
                     f"login failed: user: {email}")
                 return Response({'status': 1, 'message': 'fail'}, status=status.HTTP_200_OK)
-            if user.activated is False:
+            if user.verified is False:
                 return Response({'status': 2, 'message': 'email not verified'}, status=status.HTTP_200_OK)
             # store data into session and get it's key as token
             request.session.flush()
@@ -103,7 +103,7 @@ class AuthView:
                 return Response({'status': 1, 'message': 'fail'}, status=status.HTTP_200_OK)
             if verification_code.code != code:
                 return Response({'status': 1, 'message': 'fail'}, status=status.HTTP_200_OK)
-            user.activated = True
+            user.verified = True
             user.save()
             verification_code.delete()
             return Response({'status': 0, 'message': 'success'}, status=status.HTTP_200_OK)
@@ -118,6 +118,8 @@ class AuthView:
             except Auth.DoesNotExist:
                 return user_does_not_exists(email)
             else:
+                user.is_active = False
+                user.save()
                 logger.debug(f'token: {user.generate_token()}')
                 return Response({'status': 0, 'message': 'success'}, status=status.HTTP_200_OK)
 
@@ -135,6 +137,7 @@ class AuthView:
             except Token.DoesNotExist:
                 return Response({'status': 1, 'message': 'fail'}, status=status.HTTP_200_OK)
             user.set_password(password)
+            user.is_active = True
             user.save()
             Token.objects.filter(user=user).all().delete()
             return Response({'status': 0, 'message': 'success'}, status=status.HTTP_200_OK)

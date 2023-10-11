@@ -2,7 +2,7 @@ from rest_framework.metadata import BaseMetadata
 from api.metadata import clone_output
 
 
-class BodyMetadata:
+class UserMetadata:
     class User(BaseMetadata):
         def determine_metadata(self, request, view):
             return {

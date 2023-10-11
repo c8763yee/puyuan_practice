@@ -4,5 +4,5 @@ BASE_OUTPUT = {
 }
 
 
-def clone_output(additional={}):
+def clone_output(additional: dict = {}):
     return {**BASE_OUTPUT, **additional}
