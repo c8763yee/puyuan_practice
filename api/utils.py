@@ -60,6 +60,7 @@ def get_user_via_bearer(view_func):
         try:
             user = UserProfile.get_user_by_token(token)
         except (Token.DoesNotExist, UserProfile.DoesNotExist):
+            logger.error(f"get user failed or token not found")
             return Response({'status': 1, 'message': 'fail'}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return view_func(instance, request, user, *args, **kwargs)

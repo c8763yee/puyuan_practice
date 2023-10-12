@@ -182,7 +182,7 @@ class UserMetadata:
                 }
             }
 
-    class UploadWeight(BaseMetadata):
+    class Weight(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {
@@ -201,7 +201,7 @@ class UserMetadata:
                 }
             }
 
-    class UploadBloodSugar(BaseMetadata):
+    class BloodSugar(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {
@@ -210,7 +210,7 @@ class UserMetadata:
                 "POST": {
                     "input": {
                         "sugar": 123.0,
-                        "time_period": 1,
+                        "timeperiod": 1,
                         "recorded_at": "2023-02-03 08:17:17",
                         "drug": 1,
                         "exercise": 1
@@ -219,7 +219,7 @@ class UserMetadata:
                 }
             }
 
-    class LastRecord(BaseMetadata):
+    class Record(BaseMetadata):
         def determine_metadata(self, request, view):
             return {
                 "Header": {

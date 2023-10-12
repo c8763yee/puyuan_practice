@@ -84,7 +84,7 @@ class News(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Record(models.Model):
+class UserRecord(models.Model):
     UID = models.AutoField(primary_key=True, unique=True)
     user = models.ForeignKey(
         UserProfile, on_delete=models.CASCADE, unique=False)

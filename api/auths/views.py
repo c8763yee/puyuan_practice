@@ -12,7 +12,7 @@ from api.utils import (get_user_via_bearer, FailedResponse,
                        random_username, model_to_dict_without_user)
 from api.serializers import create_serializer
 from .metadata import AuthMetadata
-from .models import UserProfile, VerificationCode, News, Record
+from .models import UserProfile, VerificationCode, News, UserRecord
 # Create your views here.
 DAY = 60 * 60 * 24
 
@@ -184,7 +184,7 @@ class AuthView:
     class Share(viewsets.ViewSet):
         metadata_class = AuthMetadata.Share
         serializer_class = create_serializer(
-            Record,
+            UserRecord,
             apply_fields=['id', 'type', 'relation_type']
         )
 
@@ -203,18 +203,19 @@ class AuthView:
     class CheckShare(viewsets.ViewSet):
         metadata_class = AuthMetadata.CheckShare
         serializer_class = create_serializer(
-            Record
+            UserRecord
         )
 
         @get_user_via_bearer
         def list(self, request, user, Type):
-            records = Record.objects.filter(
+            records = UserRecord.objects.filter(
                 user_id=user.id, relation_type=int(Type))
 
-            records = self.serializer_class(records, many=True).data
+            serialization_records = self.serializer_class(
+                records, many=True).data
 
             # delete user field for all records in serializer.data
-            for record in records:
+            for record in serialization_records:
                 del record['user']
                 del record['UID']
 
@@ -222,6 +223,6 @@ class AuthView:
                 {
                     'status': 0,
                     'message': 'success',
-                    'records': records
+                    'records': serialization_records
                 }
             )
