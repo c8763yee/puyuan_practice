@@ -7,7 +7,7 @@ from api.models import BaseSetting, BaseUserData
 class UserSet(BaseSetting):
     name = models.CharField(max_length=50)
     birthday = models.DateField(null=True)
-    height = models.FloatField(null=True)
+    height = models.FloatField(default=0.0)
     gender = models.BooleanField(default=True)
     fcm_id = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
@@ -97,3 +97,34 @@ class Diet(BaseUserData):
     lat = models.FloatField()
     lng = models.FloatField()
     recorded_at = models.DateTimeField(auto_now_add=True)
+
+
+class A1c(BaseUserData):
+    a1c = models.IntegerField()
+    recorded_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Medical(BaseSetting):
+    diabetes_type = models.IntegerField(default=1)
+    oad = models.BooleanField(default=True)
+    insulin = models.BooleanField(default=True)
+    anti_hypertensives = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Drug(BaseUserData):
+    name = models.CharField(max_length=100)
+    type = models.IntegerField()
+    recorded_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Care(BaseUserData):
+    reply_id = models.IntegerField(default=0)
+    message = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

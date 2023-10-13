@@ -3177,3 +3177,65 @@ ERROR 2023-10-13 15:05:46,793 utils 16691 139893929932480 failed to get user by 
                 2. user is not verified
                 3. user forgot password
                 
+ERROR 2023-10-13 18:28:49,872 utils 29568 139993940801216 register failed: user: test@gmail.com already exists
+ERROR 2023-10-13 18:28:53,564 utils 29568 139993940801216 register failed: user: test@gmail.com already exists
+ERROR 2023-10-13 18:55:28,746 utils 31343 140360643552960 register failed: user: test@gmail.com already exists
+ERROR 2023-10-13 18:55:54,551 utils 31343 140360643552960 login failed: user is not active: User15999753
+ERROR 2023-10-13 18:56:09,419 utils 31539 140480946681536 login failed: user is not active: User54600672
+ERROR 2023-10-13 18:56:57,629 utils 31685 140536071997120 login failed: user not verified: User54600672
+INFO 2023-10-13 18:59:19,007 views 31869 139820034520768 verification code: 38973
+ERROR 2023-10-13 19:26:01,306 utils 33631 140398690924224 register failed: user: test@gmail.com already exists
+ERROR 2023-10-13 19:27:39,979 utils 33631 140398690924224 register failed: user: testtiananmen7357@gmail.com already exists
+ERROR 2023-10-13 19:27:50,803 utils 33631 140398690924224 register failed: user: testtiananmen7357@gmail.com already exists
+WARNING 2023-10-13 19:28:11,216 utils 33960 139693835523776 login failed: user already verified: testtiananmen7357@gmail.com
+ERROR 2023-10-13 19:49:40,841 utils 36639 140651843999424 login failed: password is wrong: User73296442
+ERROR 2023-10-13 19:56:08,737 utils 37532 139732466005696 login failed: user settings does not exists: User73296442
+ERROR 2023-10-13 20:10:25,480 utils 38497 139797578380992  Invalid data
+            forms: dict_keys([])
+            required: ['date']
+            missing: {'date'}
+            
+ERROR 2023-10-13 20:48:20,389 utils 42419 140495241160384 Bearer token not found or invalid
+ERROR 2023-10-13 23:26:10,642 utils 60243 140075588220608 register failed: user: testtiananmen7357@gmail.com already exists
+ERROR 2023-10-13 23:26:11,250 utils 60243 140075588220608 register failed: user: testtiananmen7357@gmail.com already exists
+ERROR 2023-10-13 23:26:11,790 utils 60243 140075588220608 register failed: user: testtiananmen7357@gmail.com already exists
+ERROR 2023-10-13 23:34:58,912 utils 61465 140375729206976 failed to get user by token. this may be caused by:
+                    1. token expired
+                    2. user is not verified
+                    3. user forgot password
+                    
+ERROR 2023-10-13 23:35:00,761 utils 61465 140375729206976 failed to get user by token. this may be caused by:
+                    1. token expired
+                    2. user is not verified
+                    3. user forgot password
+                    
+ERROR 2023-10-13 23:41:06,499 utils 61815 140488208066240 login failed: user not verified: User49070597
+WARNING 2023-10-13 23:41:41,646 utils 61992 140059487499968 login failed: user User49070597 is not verified
+INFO 2023-10-13 23:43:53,226 views 62188 140357027821248 verification code: 27331
+WARNING 2023-10-13 23:57:21,336 utils 64515 139952462599872 login failed: user User95292261 is not verified
+INFO 2023-10-13 23:57:24,247 views 64515 139952462599872 verification code: 94520
+ERROR 2023-10-14 00:43:44,232 utils 70438 140475469436608 Bearer token not found or invalid
+ERROR 2023-10-14 00:43:49,461 utils 70438 140475469436608 Bearer token not found or invalid
+ERROR 2023-10-14 00:43:50,415 utils 70438 140475469436608 Bearer token not found or invalid
+ERROR 2023-10-14 00:43:51,029 utils 70438 140475469436608 Bearer token not found or invalid
+ERROR 2023-10-14 01:02:50,406 utils 73008 140524396410560 Bearer token not found or invalid
+ERROR 2023-10-14 01:54:31,630 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:55:09,625 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:55:10,603 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:55:40,736 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:55:51,224 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:55:58,999 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:56:06,041 utils 78298 140267055216320 Bearer token not found or invalid
+ERROR 2023-10-14 01:56:49,482 utils 78641 139935705859776 Bearer token not found or invalid
+ERROR 2023-10-14 01:56:50,216 utils 78641 139935705859776 Bearer token not found or invalid
+ERROR 2023-10-14 03:13:31,588 utils 87080 139919424640704  Invalid data
+            forms: {}
+            required: ['type', 'invite_code']
+            missing: {'invite_code', 'type'}
+            
+ERROR 2023-10-14 03:14:11,970 utils 87080 139919424640704 relation not exists
+ERROR 2023-10-14 03:14:56,271 utils 87080 139919424640704 relation not exists
+ERROR 2023-10-14 03:15:51,517 utils 87363 140633458800320 relation not exists
+ERROR 2023-10-14 03:16:01,646 utils 87429 139835361085120 cannot add user self
+WARNING 2023-10-14 03:37:43,596 utils 89389 139906677470912 login failed: user rrrrr4413@gmail.com is already verified
+INFO 2023-10-14 03:38:19,023 views 89389 139906677470912 verification code: 02443

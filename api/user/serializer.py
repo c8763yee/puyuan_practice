@@ -34,7 +34,6 @@ class SettingSetSerializer(SettingSerializer):
 class UserSetSerializer(serializers.ModelSerializer):
     default = DefaultSetSerializer()
     setting = SettingSetSerializer()
-    lists = serializers.ListField(child=serializers.IntegerField(), source="get_lists")
 
     class Meta:
         model = Models.UserSet
@@ -66,3 +65,37 @@ class DietSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret["tag"] = ret["tag"].split(", ")
         return ret
+
+
+A1cSerializer = create_serializer(
+    Models.A1c,
+    foreign_key={
+        "user_id": serializers.PrimaryKeyRelatedField(
+            queryset=UserProfile.objects.all(), source="user"
+        )
+    },
+    exclude=["user"],
+)
+
+MedicalSerializer = create_serializer(Models.Medical)
+
+DrugSerializer = create_serializer(
+    Models.Drug,
+    foreign_key={
+        "user_id": serializers.PrimaryKeyRelatedField(
+            queryset=UserProfile.objects.all(), source="user"
+        )
+    },
+    exclude=["user"],
+)
+
+CareSerializer = create_serializer(
+    Models.Care,
+    foreign_key={
+        "user_id": serializers.PrimaryKeyRelatedField(
+            queryset=UserProfile.objects.all(), source="user"
+        ),
+        "member_id": serializers.IntegerField(default=1),
+    },
+    exclude=["user"],
+)
