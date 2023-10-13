@@ -1,11 +1,19 @@
+MINUTE = 60
+HOUR = 60 * MINUTE
+DAY = 24 * HOUR
+
+TOKEN_EXPIRE_TIME = DAY  # 1 day
+
+EMAIL = "test@gmail.com"
+PASSWORD = "1234"
+
+ALL_FIELDS = "__all__"
+
 SALT = "NUTCIMACPUYUAN"
-ALL_FIELDS = '__all__'
-DIET_TIME = [
-    '晨起', '早餐前', '早餐後', '午餐前',
-    '午餐後', '晚餐前', '晚餐後', '睡前'
-]
+
 DIET_LEN = 8
-DIARY_DICT = {
+DIET_TIME = ["晨起", "早餐前", "早餐後", "午餐前", "午餐後", "晚餐前", "晚餐後", "睡前"]
+DEFAULT_DIARY_DICT = {
     "id": 0,
     "user_id": 0,
     "systolic": 0,
@@ -20,20 +28,10 @@ DIARY_DICT = {
     "timeperiod": 0,
     "description": "",
     "meal": 0,
-    "tag": [
-        {
-            "name": [],
-            "message": ""
-        }
-    ],
-    "image": [
-        ""
-    ],
-    "location": {
-        "lat": "",
-        "lng": ""
-    },
+    "tag": [{"name": [], "message": ""}],  # name: list[str]
+    "image": ["http://www.example.com"],
+    "location": {"lat": "", "lng": ""},
     "reply": "",
     "recorded_at": "",
-    "type": ""
+    "type": "",
 }

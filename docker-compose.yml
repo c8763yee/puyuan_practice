@@ -1,0 +1,9 @@
+services:
+  django_puyuan:
+    build:
+      context: .
+    image: django_puyuan
+    command: python manage.py runserver
+    ports:
+      - "8000:8000"
+    container_name: django_puyuan
