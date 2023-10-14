@@ -18,24 +18,28 @@ from . import serializer as SerializerModule, metadata as UserMetadata, models a
 
 class UserInfo(viewsets.ViewSet):  # API No. 11 and 12
     metadata_class = UserMetadata.User
+    serializer_class = SerializerModule.UserSetSerializer
 
     @get_user
     def list(self, request, user):  # method: GET
         user_set, created = Models.UserSet.objects.get_or_create(user=user)
-        if created is False or user_set.default is None or user_set.setting is None:
+        if created and user_set.default and user_set.setting:
             default = Models.Default.objects.get_or_create(user=user)[0]
             setting = Models.Setting.objects.get_or_create(user=user)[0]
-            user_set.default = default  # type: ignore
-            user_set.setting = setting  # type: ignore
+            user_set.default = default
+            user_set.setting = setting
             user_set.save()
-        serializer_data = SerializerModule.UserSetSerializer(user_set).data
+
+        serializer_data = self.serializer_class(user_set).data
+        serializer_data["account"] = user.email
         return Response(serializer_data, status=status.HTTP_200_OK)
 
     @get_user
-    def partial_update(self, request, user, pk=None):  # method: PATCH
-        serializer = SerializerModule.UserSetSerializer(data=request.data, partial=True)
+    def partial_update(self, request, user, pk=None):
+        serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
+
         try:
             instance = Models.UserSet.objects.get(user=user)
         except Models.UserSet.DoesNotExist:

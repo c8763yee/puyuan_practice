@@ -1,36 +1,29 @@
+from django.contrib.auth.hashers import make_password, make_password
 from rest_framework import serializers
 
 from api.serializers import create_serializer
 
-from .models import UserProfile
+from . import models as Models
 
 
 class Register(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
+        model = Models.UserProfile
         fields = ["email", "password"]
 
-    def save(self, **kwargs):
-        user = UserProfile.objects.create(**self.validated_data)
-        user.is_active = False
-        user.set_password(self.validated_data["password"])
-        user.save()
+    def create(self, validated_data):
+        validated_data["password"] = make_password(validated_data["password"])
+        return super(Register, self).create(validated_data)
 
 
 class Login(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
+        model = Models.UserProfile
         fields = ["email", "password"]
 
-    def is_valid(self, *, raise_exception=False) -> tuple[UserProfile | None, bool]:
-        super_valid = super().is_valid(raise_exception=raise_exception)
-        if super_valid:
-            user = UserProfile.objects.get(email=self.validated_data["email"])
-            check_password = user.check_password(self.validated_data["password"])
 
-        if super_valid is False or check_password is False or user.is_active is False:
-            if raise_exception:
-                raise serializers.ValidationError("validation error")
-            return None, False
-
-        return user, True
+News = create_serializer(Models.News)
+Share = create_serializer(
+    Models.UserRecord, apply_fields=["id", "type", "relation_type"]
+)
+CheckShare = create_serializer(Models.UserRecord, exclude=["user", "UID"])

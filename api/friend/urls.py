@@ -26,5 +26,5 @@ urlpatterns = [
     path("send/", AuthView.Send.as_view({"post": "create"}), name="send"),
     path("<int:inviteid>/", include(AcceptOrRefuse)),
     path("remove/", AuthView.Remove.as_view({"delete": "destroy"}), name="remove"),
-    path("results/", AuthView.Results.as_view({"get": "list"}), name="result"),
+    path("results/", AuthView.Result.as_view({"get": "list"}), name="result"),
 ]

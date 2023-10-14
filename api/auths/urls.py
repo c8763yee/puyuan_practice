@@ -29,7 +29,7 @@ password_router.register("reset", AuthView.ResetPassword, basename="reset_passwo
 # ------------------------------------
 
 router = DefaultRouter()
-router.register("news", AuthView.NewsView, basename="news")
+router.register("news", AuthView.News, basename="news")
 router.register("share", AuthView.Share, basename="share")
 
 router.register(r"share/(?P<Type>\d+)", AuthView.CheckShare, basename="check_share")

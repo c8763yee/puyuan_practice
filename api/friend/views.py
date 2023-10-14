@@ -30,7 +30,7 @@ class Code(viewsets.ViewSet):
     @get_user
     def list(self, requst, user):
         relation = Models.Relation.objects.create(
-            user=user, invite_code=random_username(k=5)
+            user=user, invite_code=random_username(k=5)[4:]
         )
         return Response(
             {"status": 0, "message": "success", "invite_code": relation.invite_code}
@@ -39,14 +39,21 @@ class Code(viewsets.ViewSet):
 
 class List(viewsets.ViewSet):
     metadata_class = FriendMetadata.List
-    serializer_class = SerializerModule.ListSerializer
 
     @get_user
     def list(self, request, user):
-        serialzer = self.serializer_class(
-            Models.Relation.objects.filter(user=user), many=True
-        )
-        return Response({"status": 0, "message": "success", "data": serialzer.data})
+        return_data = []
+        relations = Models.Relation.objects.filter(user=user, type__lt=INVALID_TYPE)
+        for relation in relations:
+            related_user = relation.relation
+            logger.info(model_to_dict(related_user))
+            related_user_data = {
+                "id": related_user.id,
+                "name": related_user.name,
+                "email": related_user.email,
+            }
+            return_data.append(related_user_data)
+        return Response({"status": 0, "message": "success", "data": return_data})
 
 
 class Requests(viewsets.ViewSet):
@@ -56,7 +63,7 @@ class Requests(viewsets.ViewSet):
     @get_user
     def list(self, request, user):
         serializer = self.serializer_class(
-            Models.Relation.objects.filter(user=user, type__lt=INVALID_TYPE), many=True
+            Models.Relation.objects.filter(user=user, status=NOT_ANSWERED), many=True
         )
         return Response({"status": 0, "message": "success", "data": serializer.data})
 
@@ -74,14 +81,18 @@ class Send(viewsets.ViewSet):
 
         try:
             relation = Models.Relation.objects.get(invite_code=invite_code)
-        except Models.Relation.DoesNotExist:
-            return FailedResponse.relation_not_exists()
+            relation.relation = UserSet.objects.get(user=user)
+        except (Models.Relation.DoesNotExist, UserSet.DoesNotExist):
+            return FailedResponse.invalid_invite_code()
 
         if relation.user == user:
             return FailedResponse.cannot_add_self()
 
+        if relation.status == ACCEPT:
+            return FailedResponse.already_been_friends()
+
         relation.type = relation_type
-        relation.relation = user
+        relation.save()
         return Response({"status": 0, "message": "success"})
 
 
@@ -96,11 +107,11 @@ class Accept(viewsets.ViewSet):
         if relation.status != NOT_ANSWERED:
             return FailedResponse.already_answered()
 
-        relation.relation, _ = UserSet.objects.get_or_create(id=user.id)
+        relation.relation = UserSet.objects.get(user=user)
         relation.status = ACCEPT
         relation.read = 1
         relation.save()
-        return Response({"status": 0, "status": "success"})
+        return Response({"status": 0, "message": "success"})
 
 
 class Refuse(viewsets.ViewSet):
@@ -119,7 +130,7 @@ class Refuse(viewsets.ViewSet):
         relation.status = REFUSE
         relation.read = 1
         relation.save()
-        return Response({"status": 0, "status": "success"})
+        return Response({"status": 0, "message": "success"})
 
 
 class Remove(viewsets.ViewSet):
@@ -133,13 +144,14 @@ class Remove(viewsets.ViewSet):
         return Response({"status": 0, "message": "success"})
 
 
-class Results(viewsets.ViewSet):
+class Result(viewsets.ViewSet):
     metadata_class = FriendMetadata.Result
     serializer_class = SerializerModule.ResultSerializer
 
     @get_user
     def list(self, request, user):
         serializer = self.serializer_class(
-            Models.Relation.objects.filter(relation=user), many=True
+            Models.Relation.objects.filter(user=user, type__lt=INVALID_TYPE, read=1),
+            many=True,
         )
         return Response({"status": 0, "message": "success", "data": serializer.data})

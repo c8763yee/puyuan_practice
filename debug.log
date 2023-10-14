@@ -3239,3 +3239,27 @@ ERROR 2023-10-14 03:15:51,517 utils 87363 140633458800320 relation not exists
 ERROR 2023-10-14 03:16:01,646 utils 87429 139835361085120 cannot add user self
 WARNING 2023-10-14 03:37:43,596 utils 89389 139906677470912 login failed: user rrrrr4413@gmail.com is already verified
 INFO 2023-10-14 03:38:19,023 views 89389 139906677470912 verification code: 02443
+WARNING 2023-10-14 12:49:31,530 utils 5257 140614084892352 login failed: user User73602536 is not verified
+ERROR 2023-10-14 13:19:34,526 utils 7358 139687751247552 Bearer token not found or invalid
+ERROR 2023-10-14 13:20:41,645 utils 7358 139687751247552 Bearer token not found or invalid
+ERROR 2023-10-14 13:31:27,500 utils 8692 139688093775552 Bearer token not found or invalid
+ERROR 2023-10-14 13:50:34,283 utils 10870 140493681850048 already answered this request
+INFO 2023-10-14 13:57:00,585 views 11369 140454473070272 <QuerySet []>
+INFO 2023-10-14 13:57:01,312 views 11369 140454473070272 <QuerySet []>
+ERROR 2023-10-14 14:01:29,165 utils 11958 139864361858752 failed to get user by token. this may be caused by:
+                    1. token expired
+                    2. user is not verified
+                    3. user forgot password
+                    
+WARNING 2023-10-14 14:01:39,207 utils 11958 139864361858752 login failed: user User33075593 is not verified
+INFO 2023-10-14 14:02:33,592 views 12111 140222513911488 verification code: 33818
+WARNING 2023-10-14 14:09:03,736 utils 12579 139628220024512 login failed: user User76026050 is not verified
+INFO 2023-10-14 14:09:17,899 views 12579 139628220024512 verification code: 73035
+ERROR 2023-10-14 14:10:49,372 utils 12579 139628220024512 relation not exists
+INFO 2023-10-14 14:30:39,200 views 14906 140413474252480 UserSet object (2)
+ERROR 2023-10-14 14:34:31,338 utils 15216 140001522935488 already answered this request
+INFO 2023-10-14 14:34:48,884 views 15216 140001531328192 UserSet object (2)
+INFO 2023-10-14 14:36:00,727 views 15216 140001531328192 UserSet object (2)
+INFO 2023-10-14 14:36:02,495 views 15216 140001531328192 UserSet object (2)
+INFO 2023-10-14 14:36:56,465 views 15557 140276311512768 {'id': 2, 'user': 2, 'name': '', 'birthday': None, 'height': 0.0, 'gender': True, 'fcm_id': '', 'address': '', 'weight': '', 'phone': '', 'email': '', 'default': None, 'setting': None}
+INFO 2023-10-14 14:37:07,314 views 15557 140276311512768 {'id': 2, 'user': 2, 'name': '銅鼓何人', 'birthday': None, 'height': 0.0, 'gender': True, 'fcm_id': '', 'address': '', 'weight': '', 'phone': '', 'email': 'rrrrr4413@gmail.com', 'default': None, 'setting': None}

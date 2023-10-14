@@ -9,11 +9,9 @@ from puyuan.const import MINUTE, DAY
 from puyuan.settings import EMAIL_HOST_USER
 
 from api import logger
-from api.serializers import create_serializer
 from api.utils import FailedResponse, get_user_via_bearer, random_username
 
-from . import metadata as AuthMetadata, serializer as SerializerModule
-from .models import News, UserProfile, UserRecord, VerificationCode
+from . import metadata as AuthMetadata, serializer as SerializerModule, models as Models
 
 # Create your views here.
 
@@ -27,8 +25,8 @@ class Register(viewsets.ViewSet):
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
-        email = request.data["email"]
-        if UserProfile.objects.filter(email=email).exists():
+        email = serializer.validated_data["email"]
+        if Models.UserProfile.objects.filter(email=email).exists():
             return FailedResponse.user_already_exists(email)
 
         serializer.save(is_active=False, username=random_username())
@@ -44,18 +42,22 @@ class Login(viewsets.ViewSet):
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
-        user, is_valid = serializer.is_valid()
-        if is_valid is False:
-            return FailedResponse.password_is_wrong(request.data["email"])
+        if serializer.is_valid() is False:
+            return FailedResponse.serializer_is_not_valid(serializer)
+
+        user = Models.UserProfile.objects.get(email=request.data["email"])
+        if user.check_password(serializer.validated_data["password"]) is False:
+            return FailedResponse.password_is_wrong(user.username)
+
+        if user.is_active is False:
+            return FailedResponse.user_is_not_verified(user.username)
 
         request.session.flush()
         request.session["user_id"] = user.id
-        # since user can login, we can see as user already reset password or remember password
         request.session["forgot_password"] = False
         request.session.set_expiry(DAY)
         request.session.save()
 
-        user.is_forgot_password = False
         user.last_login = timezone.now()
         user.save()
 
@@ -72,17 +74,17 @@ class SendVerification(viewsets.ViewSet):
     def create(self, request):
         email = request.data["email"]
         try:
-            user = UserProfile.objects.get(email=email)
-        except UserProfile.DoesNotExist:
+            user = Models.UserProfile.objects.get(email=email)
+        except Models.UserProfile.DoesNotExist:
             return FailedResponse.user_does_not_exists()
 
         if user.is_active:
             return FailedResponse.user_is_already_verified(email)
 
-        if VerificationCode.objects.filter(user_id=user.id).exists():  # type: ignore
-            VerificationCode.objects.filter(user_id=user.id).all().delete()  # type: ignore
+        if Models.VerificationCode.objects.filter(user_id=user.id).exists():  # type: ignore
+            Models.VerificationCode.objects.filter(user_id=user.id).all().delete()  # type: ignore
 
-        verification_code = VerificationCode.objects.create(user_id=user.id)  # type: ignore
+        verification_code = Models.VerificationCode.objects.create(user_id=user.id)  # type: ignore
         verification_code.code = f"{random.randint(0, 100000):05d}"
         logger.info(f"verification code: {verification_code.code}")
         send_mail(
@@ -92,6 +94,7 @@ class SendVerification(viewsets.ViewSet):
             [email],
             fail_silently=False,
         )
+
         verification_code.save()
         return Response(
             {"status": 0, "message": "success"}, status=status.HTTP_201_CREATED
@@ -102,18 +105,23 @@ class CheckVerification(viewsets.ViewSet):
     metadata_class = AuthMetadata.CheckVerification
 
     def create(self, request):
-        email = request.data["email"]
-        code = request.data["code"]
         try:
-            user = UserProfile.objects.get(email=email)
-        except UserProfile.DoesNotExist:
+            email = request.data["email"]
+            code = request.data["code"]
+        except KeyError:
+            return FailedResponse.invalid_data(request.data.keys(), ["email", "code"])
+
+        try:
+            user = Models.UserProfile.objects.get(email=email)
+        except Models.UserProfile.DoesNotExist:
             return FailedResponse.user_does_not_exists()
+
         if user.is_active:
             return FailedResponse.user_is_already_verified(email)
 
         try:
-            verification_code = VerificationCode.objects.get(user_id=user)  # type: ignore
-        except VerificationCode.DoesNotExist:
+            verification_code = Models.VerificationCode.objects.get(user_id=user)  # type: ignore
+        except Models.VerificationCode.DoesNotExist:
             return FailedResponse.user_already_exists(email)
 
         if verification_code.code != code:
@@ -131,8 +139,8 @@ class ForgotPassword(viewsets.ViewSet):
     def create(self, request):
         email = request.data["email"]
         try:
-            user = UserProfile.objects.get(email=email)
-        except UserProfile.DoesNotExist:
+            user = Models.UserProfile.objects.get(email=email)
+        except Models.UserProfile.DoesNotExist:
             return FailedResponse.user_does_not_exists()
         else:
             user.is_forgot_password = True
@@ -184,24 +192,24 @@ class CheckRegister(viewsets.ViewSet):
         except KeyError:
             return FailedResponse.invalid_data(request.query_params.keys(), ["email"])
         try:
-            UserProfile.objects.get(email=email)
-        except UserProfile.DoesNotExist:
+            Models.UserProfile.objects.get(email=email)
+        except Models.UserProfile.DoesNotExist:
             return FailedResponse.user_does_not_exists()
         return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
 
 
-class NewsView(viewsets.ViewSet):
+class News(viewsets.ViewSet):
     metadata_class = AuthMetadata.News
-    serializers_class = create_serializer(News)
+    serializers_class = SerializerModule.News
 
     @get_user_via_bearer()  # type: ignore
     def list(self, request, user):
-        News.objects.create(
+        Models.News.objects.create(
             member_id=user, group=1, title="test", message="test"
         ).save()
 
         read_serializer = self.serializers_class(
-            News.objects.filter(member_id=user), many=True
+            Models.News.objects.filter(member_id=user), many=True
         )
         return Response(
             {"status": 0, "message": "success", "news": read_serializer.data}
@@ -210,9 +218,7 @@ class NewsView(viewsets.ViewSet):
 
 class Share(viewsets.ViewSet):
     metadata_class = AuthMetadata.Share
-    serializer_class = create_serializer(
-        UserRecord, apply_fields=["id", "type", "relation_type"]
-    )
+    serializer_class = SerializerModule.Share
 
     @get_user_via_bearer()
     def create(self, request, user):
@@ -230,18 +236,15 @@ class Share(viewsets.ViewSet):
 
 class CheckShare(viewsets.ViewSet):
     metadata_class = AuthMetadata.CheckShare
-    serializer_class = create_serializer(UserRecord)
+    serializer_class = SerializerModule.CheckShare
 
     @get_user_via_bearer()
     def list(self, request, user, Type):
-        records = UserRecord.objects.filter(user_id=user.id, relation_type=int(Type))
+        records = Models.UserRecord.objects.filter(
+            user_id=user.id, relation_type=int(Type)
+        )
 
         serialization_records = self.serializer_class(records, many=True).data
-
-        # delete user field for all records in serializer.data
-        for record in serialization_records:
-            del record["user"]
-            del record["UID"]
 
         return Response(
             {"status": 0, "message": "success", "records": serialization_records}

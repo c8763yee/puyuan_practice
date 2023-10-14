@@ -35,6 +35,12 @@ class UserSetSerializer(serializers.ModelSerializer):
     default = DefaultSetSerializer()
     setting = SettingSetSerializer()
 
+    # account related to UserSet.email
+    account = serializers.SerializerMethodField()
+
+    def get_account(self, obj):
+        return obj.email
+
     class Meta:
         model = Models.UserSet
         exclude = ["user"]
