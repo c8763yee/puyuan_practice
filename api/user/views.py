@@ -24,15 +24,18 @@ class UserInfo(viewsets.ViewSet):  # API No. 11 and 12
     def list(self, request, user):  # method: GET
         user_set, created = Models.UserSet.objects.get_or_create(user=user)
         if created and user_set.default and user_set.setting:
-            default = Models.Default.objects.get_or_create(user=user)[0]
-            setting = Models.Setting.objects.get_or_create(user=user)[0]
-            user_set.default = default
-            user_set.setting = setting
-            user_set.save()
+            pass
+        default = Models.Default.objects.get_or_create(user=user)[0]
+        setting = Models.Setting.objects.get_or_create(user=user)[0]
+        user_set.default = default
+        user_set.setting = setting
+        user_set.save()
 
         serializer_data = self.serializer_class(user_set).data
-        serializer_data["account"] = user.email
-        return Response(serializer_data, status=status.HTTP_200_OK)
+        return Response(
+            {"status": 0, "message": "success", "user": serializer_data},
+            status=status.HTTP_200_OK,
+        )
 
     @get_user
     def partial_update(self, request, user, pk=None):
@@ -245,8 +248,7 @@ class Diary(viewsets.ViewSet):
             return FailedResponse.invalid_data(request.query_params.keys(), ["date"])
 
         if re.match(r"^\d{4}-\d{2}-\d{2}$", date_time) is None:
-            logger.error("date is not valid")
-            return Response({"status": 1, "message": "fail"})
+            return FailedResponse.invalid_date_format(date_time, "%Y-%m-%d")
 
         # we only check startswith for getting data since the recorded_at is timezone.now()
         # and we only need to check the date(YYYY-MM-DD)

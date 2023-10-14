@@ -13,9 +13,18 @@ from api.models import BaseUser
 from .auths.models import UserProfile
 
 
-class FailedResponse:
+def failed_response(status: int = status.HTTP_400_BAD_REQUEST, **extra):
+    return Response({"status": 1, "message": "fail", **extra}, status=status)
+
+
+def warning_response(status: int, message: str, **extra):
+    return Response({"status": 2, "message": message, **extra}, status=status)
+
+
+class WarningResponse:
     """
-    A class that contains static methods for generating failed responses with appropriate status codes and error messages.
+    A class that contains static methods for generating warning responses with appropriate status codes and error messages.
+    this is not that impacful to the system
     """
 
     @staticmethod
@@ -26,11 +35,40 @@ class FailedResponse:
         Returns:
             Response: A Response object with status code 409 and a message indicating that the users are already friends.
         """
-        logger.error(f"already been friends")
-        return Response(
-            {"status": 2, "message": "already been friends"},
-            status=status.HTTP_409_CONFLICT,
+        logger.warning(f"already been friends")
+        return warning_response(status.HTTP_409_CONFLICT, "already been friends")
+
+    @staticmethod
+    def user_is_not_verified(username: str) -> Response:
+        """
+        Returns a Response object with status code 401 (Unauthorized) and a message indicating that the user is not verified.
+
+        Args:
+            username (str): The username of the user that failed to log in.
+
+        Returns:
+            Response: A Response object with status code 401 and a message indicating that the user is not verified.
+        """
+        logger.warning(f"login failed: user {username} is not verified")
+        return warning_response(
+            message="email not verified",
+            status=status.HTTP_401_UNAUTHORIZED,
         )
+
+
+class FailedResponse:
+    """
+    A class that contains static methods for generating failed responses with appropriate status codes and error messages.
+    """
+
+    @staticmethod
+    def invalid_date_format(date, expect_format):
+        logger.error(
+            f"""invalid date:
+                            the valid date format is {expect_format} but got {date}
+                            """
+        )
+        return failed_response(status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def invalid_data(forms: list[str], required: list[str]) -> Response:
@@ -51,9 +89,7 @@ class FailedResponse:
             missing: {set(required) - set(forms)}
             """
         )
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return failed_response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def serializer_is_not_valid(serializer: serializers.ModelSerializer) -> Response:
@@ -67,9 +103,7 @@ class FailedResponse:
             Response: A Response object with status code 400 and a message indicating that the serializer is not valid.
         """
         logger.error(f"serializer is not valid: {serializer.errors}")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return failed_response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def user_does_not_exists() -> Response:
@@ -80,9 +114,7 @@ class FailedResponse:
             Response: A Response object with status code 204 and a message indicating that the user does not exist.
         """
         logger.error(f"register failed: user not exist")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_204_NO_CONTENT
-        )
+        return failed_response(status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
     def user_already_exists(email: str) -> Response:
@@ -96,9 +128,7 @@ class FailedResponse:
             Response: A Response object with status code 409 and a message indicating that the user already exists.
         """
         logger.error(f"register failed: user: {email} already exists")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_409_CONFLICT
-        )
+        return failed_response(status=status.HTTP_409_CONFLICT)
 
     @staticmethod
     def password_is_wrong(username: str) -> Response:
@@ -112,9 +142,7 @@ class FailedResponse:
             Response: A Response object with status code 401 and a message indicating that the password is wrong.
         """
         logger.error(f"login failed: password is wrong: {username}")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
 
     @staticmethod
     def same_password(username: str) -> Response:
@@ -130,9 +158,7 @@ class FailedResponse:
         logger.error(
             f"reset password failed: why do you reset password to the same one: {username}"
         )
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
 
     @staticmethod
     def user_is_not_active(username: str) -> Response:
@@ -146,9 +172,7 @@ class FailedResponse:
             Response: A Response object with status code 401 and a message indicating that the user is not active.
         """
         logger.error(f"login failed: user {username} is not active")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
 
     @staticmethod
     def user_is_already_verified(username: str) -> Response:
@@ -162,26 +186,7 @@ class FailedResponse:
             Response: A Response object with status code 409 and a message indicating that the user is already verified.
         """
         logger.warning(f"login failed: user {username} is already verified")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_409_CONFLICT
-        )
-
-    @staticmethod
-    def user_is_not_verified(username: str) -> Response:
-        """
-        Returns a Response object with status code 401 (Unauthorized) and a message indicating that the user is not verified.
-
-        Args:
-            username (str): The username of the user that failed to log in.
-
-        Returns:
-            Response: A Response object with status code 401 and a message indicating that the user is not verified.
-        """
-        logger.warning(f"login failed: user {username} is not verified")
-        return Response(
-            {"status": 2, "message": "email not verified"},
-            status=status.HTTP_401_UNAUTHORIZED,
-        )
+        return failed_response(status=status.HTTP_409_CONFLICT)
 
     @staticmethod
     def verification_code_is_wrong(username: str) -> Response:
@@ -195,9 +200,7 @@ class FailedResponse:
             Response: A Response object with status code 401 and a message indicating that the verification code is wrong.
         """
         logger.error(f"login failed: verification code is wrong: {username}")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
 
     @staticmethod
     def user_settings_does_not_exists(username: str) -> Response:
@@ -211,9 +214,7 @@ class FailedResponse:
             Response: A Response object with status code 401 and a message indicating that the user settings do not exist.
         """
         logger.error(f"login failed: user settings does not exists: {username}")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
 
     @staticmethod
     def invalid_datatype() -> Response:
@@ -224,9 +225,7 @@ class FailedResponse:
             Response: A Response object with status code 400 and a message indicating that the data type is invalid.
         """
         logger.error(f"invalid data type")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return failed_response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def relation_not_exists() -> Response:
@@ -237,9 +236,7 @@ class FailedResponse:
             Response: A Response object with status code 404 and a message indicating that the relation does not exist.
         """
         logger.error(f"relation not exists")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_404_NOT_FOUND
-        )
+        return failed_response(status=status.HTTP_404_NOT_FOUND)
 
     @staticmethod
     def cannot_add_self() -> Response:
@@ -250,9 +247,7 @@ class FailedResponse:
             Response: A Response object with status code 400 and a message indicating that a user cannot add themselves.
         """
         logger.error(f"cannot add user self")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return failed_response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
     def already_answered() -> Response:
@@ -263,9 +258,7 @@ class FailedResponse:
             Response: A Response object with status code 409 and a message indicating that the request has already been answered.
         """
         logger.error(f"already answered this request")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_409_CONFLICT
-        )
+        return failed_response(status=status.HTTP_409_CONFLICT)
 
     @staticmethod
     def invalid_invite_code() -> Response:
@@ -276,9 +269,7 @@ class FailedResponse:
             Response: A Response object with status code 404 and a message indicating that the invite code is invalid.
         """
         logger.error(f"invalid invite code")
-        return Response(
-            {"status": 1, "message": "fail"}, status=status.HTTP_404_NOT_FOUND
-        )
+        return failed_response(status=status.HTTP_404_NOT_FOUND)
 
 
 def get_token_from_headers(request) -> str:
@@ -396,5 +387,5 @@ def get_user_via_bearer(allow_forgot_password=False):
 get_user = get_user_via_bearer()
 
 
-def random_username(k: int = 8) -> str:
-    return f"User{''.join(random.choices('0123456789', k=k))}"
+def random_username(k: int = 8, prefix="User") -> str:
+    return f"{prefix}{''.join(random.choices('0123456789', k=k))}"

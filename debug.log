@@ -3263,3 +3263,15 @@ INFO 2023-10-14 14:36:00,727 views 15216 140001531328192 UserSet object (2)
 INFO 2023-10-14 14:36:02,495 views 15216 140001531328192 UserSet object (2)
 INFO 2023-10-14 14:36:56,465 views 15557 140276311512768 {'id': 2, 'user': 2, 'name': '', 'birthday': None, 'height': 0.0, 'gender': True, 'fcm_id': '', 'address': '', 'weight': '', 'phone': '', 'email': '', 'default': None, 'setting': None}
 INFO 2023-10-14 14:37:07,314 views 15557 140276311512768 {'id': 2, 'user': 2, 'name': '銅鼓何人', 'birthday': None, 'height': 0.0, 'gender': True, 'fcm_id': '', 'address': '', 'weight': '', 'phone': '', 'email': 'rrrrr4413@gmail.com', 'default': None, 'setting': None}
+ERROR 2023-10-14 15:07:23,787 utils 18335 140143162816192 failed to get user by token. this may be caused by:
+                    1. token expired
+                    2. user is not verified
+                    3. user forgot password
+                    
+WARNING 2023-10-14 15:07:35,937 utils 18335 140143162816192 login failed: user User72525388 is not verified
+INFO 2023-10-14 15:07:37,630 views 18335 140143162816192 verification code: 96261
+ERROR 2023-10-14 16:26:09,091 utils 21341 139837961139904 failed to get user by token. this may be caused by:
+                    1. token expired
+                    2. user is not verified
+                    3. user forgot password
+                    

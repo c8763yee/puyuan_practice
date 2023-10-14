@@ -41,6 +41,11 @@ class UserSetSerializer(serializers.ModelSerializer):
     def get_account(self, obj):
         return obj.email
 
+    verified = serializers.SerializerMethodField()
+
+    def get_verified(self, obj):
+        return int(obj.user.is_active)
+
     class Meta:
         model = Models.UserSet
         exclude = ["user"]

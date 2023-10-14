@@ -8,7 +8,7 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from api import logger
-from api.utils import get_user, FailedResponse, random_username
+from api.utils import get_user, FailedResponse, random_username, WarningResponse
 
 from puyuan.const import NOT_ANSWERED, ACCEPT, REFUSE, INVALID_TYPE
 
@@ -30,7 +30,7 @@ class Code(viewsets.ViewSet):
     @get_user
     def list(self, requst, user):
         relation = Models.Relation.objects.create(
-            user=user, invite_code=random_username(k=5)[4:]
+            user=user, invite_code=random_username(k=5, prefix="")
         )
         return Response(
             {"status": 0, "message": "success", "invite_code": relation.invite_code}
@@ -89,7 +89,7 @@ class Send(viewsets.ViewSet):
             return FailedResponse.cannot_add_self()
 
         if relation.status == ACCEPT:
-            return FailedResponse.already_been_friends()
+            return WarningResponse.already_been_friends()
 
         relation.type = relation_type
         relation.save()

@@ -9,7 +9,12 @@ from puyuan.const import MINUTE, DAY
 from puyuan.settings import EMAIL_HOST_USER
 
 from api import logger
-from api.utils import FailedResponse, get_user_via_bearer, random_username
+from api.utils import (
+    FailedResponse,
+    get_user_via_bearer,
+    random_username,
+    WarningResponse,
+)
 
 from . import metadata as AuthMetadata, serializer as SerializerModule, models as Models
 
@@ -50,7 +55,7 @@ class Login(viewsets.ViewSet):
             return FailedResponse.password_is_wrong(user.username)
 
         if user.is_active is False:
-            return FailedResponse.user_is_not_verified(user.username)
+            return WarningResponse.user_is_not_verified(user.username)
 
         request.session.flush()
         request.session["user_id"] = user.id
@@ -59,6 +64,7 @@ class Login(viewsets.ViewSet):
         request.session.save()
 
         user.last_login = timezone.now()
+        user.login_time += 1
         user.save()
 
         token = request.session.session_key
