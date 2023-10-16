@@ -11,7 +11,7 @@ from ..user.models import UserSet
 
 class Relation(BaseFriend):
     invite_code = models.CharField(max_length=255, null=True)
-    relation = models.ForeignKey(UserSet, on_delete=models.CASCADE, null=True)  # friend
+    relation = models.ForeignKey(UserSet, on_delete=models.CASCADE, null=True)
     type = models.IntegerField(default=INVALID_TYPE)
     status = models.IntegerField(default=0)
     read = models.IntegerField(default=0)

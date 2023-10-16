@@ -401,6 +401,15 @@ class Care(viewsets.ViewSet):
 
 
 class Badge(viewsets.ViewSet):
+    metadata_class = UserMetadata.Badge
+
     @get_user
     def update(self, request, user):  # method: PUT
-        pass
+        user_set = Models.UserSet.objects.get(user=user)
+        badge = request.data.get("badge", -1)
+        if isinstance(badge, int) and badge >= 0:
+            user_set.badge = badge
+            user_set.save()
+        else:
+            return FailedResponse.invalid_datatype()
+        return Response({"status": 0, "message": "success"})

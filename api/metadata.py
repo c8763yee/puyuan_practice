@@ -6,7 +6,7 @@ def clone_output(additional: dict = {}):
     return {**BASE_OUTPUT, **additional}
 
 
-def get_input_output(output: dict = {}, **kwargs):
+def get_input_output_from_method(output: dict = {}, **kwargs):
     _return_dict = {}
     if "input" in kwargs:
         inputs = kwargs["input"]
@@ -24,7 +24,7 @@ def process_method(
         if not payload:
             continue
 
-        return_dict.update({method: get_input_output(**payload)})
+        return_dict.update({method: get_input_output_from_method(**payload)})
     return return_dict
 
 

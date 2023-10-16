@@ -7,7 +7,6 @@ from api.models import BaseUser
 
 class UserProfile(BaseUser):
     is_forgot_password = models.BooleanField(default=False)
-    login_time = models.IntegerField(default=0)
 
     USERNAME_FIELD = "id"
     REQUIRED_FIELDS = ["email", "username"]

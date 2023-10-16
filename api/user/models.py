@@ -14,6 +14,7 @@ class UserSet(BaseSetting):
     weight = models.CharField(max_length=10)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
+    badge = models.IntegerField(default=0)
     default = models.OneToOneField(
         "user.Default",
         on_delete=models.SET_NULL,

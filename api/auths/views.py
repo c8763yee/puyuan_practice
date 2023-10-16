@@ -64,7 +64,6 @@ class Login(viewsets.ViewSet):
         request.session.save()
 
         user.last_login = timezone.now()
-        user.login_time += 1
         user.save()
 
         token = request.session.session_key
@@ -136,7 +135,7 @@ class CheckVerification(viewsets.ViewSet):
         user.is_active = True
         user.save()
         verification_code.delete()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response({"status": 0, "message": "success"})
 
 
 class ForgotPassword(viewsets.ViewSet):
@@ -186,7 +185,7 @@ class ResetPassword(viewsets.ViewSet):
         user.is_forgot_password = False
         user.save()
         request.session.flush()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response({"status": 0, "message": "success"})
 
 
 class CheckRegister(viewsets.ViewSet):
@@ -201,7 +200,7 @@ class CheckRegister(viewsets.ViewSet):
             Models.UserProfile.objects.get(email=email)
         except Models.UserProfile.DoesNotExist:
             return FailedResponse.user_does_not_exists()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response({"status": 0, "message": "success"})
 
 
 class News(viewsets.ViewSet):
@@ -234,10 +233,8 @@ class Share(viewsets.ViewSet):
         except serializers.ValidationError:
             return FailedResponse.serializer_is_not_valid(serializer)
         else:
-            serializer.save(user_id=user.id)
-            return Response(
-                {"status": 0, "message": "success"}, status=status.HTTP_200_OK
-            )
+            serializer.save(user=user)
+            return Response({"status": 0, "message": "success"})
 
 
 class CheckShare(viewsets.ViewSet):
@@ -246,9 +243,7 @@ class CheckShare(viewsets.ViewSet):
 
     @get_user_via_bearer()
     def list(self, request, user, Type):
-        records = Models.UserRecord.objects.filter(
-            user_id=user.id, relation_type=int(Type)
-        )
+        records = Models.UserRecord.objects.filter(user=user, relation_type=int(Type))
 
         serialization_records = self.serializer_class(records, many=True).data
 

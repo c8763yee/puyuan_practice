@@ -385,3 +385,15 @@ class Care(BaseMetadata):
                 },
             },
         )
+
+
+class Badge(BaseMetadata):
+    def determine_metadata(self, request, view):
+        return setup_response(
+            header={"Authorization": "Bearer ${token}"},
+            PUT={
+                "input": {
+                    "badge": 0,
+                },
+            },
+        )
