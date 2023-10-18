@@ -3275,3 +3275,6 @@ ERROR 2023-10-14 16:26:09,091 utils 21341 139837961139904 failed to get user by 
                     2. user is not verified
                     3. user forgot password
                     
+ERROR 2023-10-17 17:53:04,111 utils 83643 139632415700672 register failed: user not exist
+WARNING 2023-10-17 17:53:11,531 utils 83643 139632415700672 login failed: user User13517747 is not verified
+INFO 2023-10-17 17:53:13,409 views 83643 139632415700672 verification code: 81695
