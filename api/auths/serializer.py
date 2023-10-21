@@ -22,7 +22,6 @@ class Login(serializers.ModelSerializer):
         fields = ["email", "password"]
 
 
-News = create_serializer(Models.News)
 Share = create_serializer(
     Models.UserRecord, apply_fields=["id", "type", "relation_type"]
 )

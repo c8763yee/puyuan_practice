@@ -2,76 +2,74 @@ import re
 from typing import Type
 from django.shortcuts import render
 from django.forms.models import model_to_dict
-from django.utils import timezone
-from django.db.models import Model as django_model
-from rest_framework import status, viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
 
-from api import logger
-from api.utils import get_user, FailedResponse, random_username, WarningResponse
+from api.utils import get_userprofile, FailedResponse, WarningResponse
 
-from puyuan.const import NOT_ANSWERED, ACCEPT, REFUSE, INVALID_TYPE
+from puyuan.const import NOT_ANSWERED, ACCEPT, REFUSE, INVALID_FRIEND_TYPE
 
 
-from . import (
-    serializer as SerializerModule,
-    metadata as FriendMetadata,
-    models as Models,
-)
+from . import models as Models
 
-from ..user.models import UserSet
 
 # Create your views here.
 
 
 class Code(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Code
-
-    @get_user
+    @get_userprofile
     def list(self, requst, user):
-        relation = Models.Relation.objects.create(
-            user=user, invite_code=random_username(k=5, prefix="")
-        )
         return Response(
-            {"status": 0, "message": "success", "invite_code": relation.invite_code}
+            {"status": "0", "message": "success", "invite_code": user.invite_code}
         )
 
 
 class List(viewsets.ViewSet):
-    metadata_class = FriendMetadata.List
-
-    @get_user
+    @get_userprofile
     def list(self, request, user):
-        return_data = []
-        relations = Models.Relation.objects.filter(user=user, type__lt=INVALID_TYPE)
-        for relation in relations:
-            related_user = relation.relation
-            logger.info(model_to_dict(related_user))
-            related_user_data = {
-                "id": related_user.id,
-                "name": related_user.name,
-                "email": related_user.email,
-            }
-            return_data.append(related_user_data)
-        return Response({"status": 0, "message": "success", "data": return_data})
+        relation_list = []
+        friend_set = set(map(int, user.friend.split(", "))) if user.friend else set()
+        friends = Models.FriendSend.objects.filter(user=user, id__in=friend_set).all()
+
+        for friend in friends:
+            relation_list.append(
+                {
+                    "id": friend.relation.id,  # type: ignore
+                    "username": friend.relation.username,
+                    "account": friend.relation.account,
+                }
+            )
+
+        return Response({"status": "0", "message": "success", "friends": relation_list})
 
 
 class Requests(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Requests
-    serializer_class = SerializerModule.RequestSerializer
-
-    @get_user
+    @get_userprofile
     def list(self, request, user):
-        serializer = self.serializer_class(
-            Models.Relation.objects.filter(user=user, status=NOT_ANSWERED), many=True
-        )
-        return Response({"status": 0, "message": "success", "data": serializer.data})
+        request_list = []
+        requests = Models.FriendSend.objects.filter(
+            user=user, status=NOT_ANSWERED, type__lt=INVALID_FRIEND_TYPE
+        ).all()
+
+        for friend_request in requests:
+            request_dict = model_to_dict(friend_request, exclude=["user", "relation"])
+
+            # manully add user_id and user and relation_id to friend_dict
+            request_dict["user_id"] = user.id
+            request_dict["relation_id"] = friend_request.relation.id  # type: ignore
+            request_dict["user"] = {
+                "id": friend_request.relation.id,  # type: ignore
+                "username": friend_request.relation.username,
+                "account": friend_request.relation.account,
+            }
+
+            request_list.append(request_dict)
+
+        return Response({"status": "0", "message": "success", "requests": request_list})
 
 
 class Send(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Send
-
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         try:
             relation_type = request.data["type"]
@@ -80,78 +78,98 @@ class Send(viewsets.ViewSet):
             return FailedResponse.invalid_data(request.data, ["type", "invite_code"])
 
         try:
-            relation = Models.Relation.objects.get(invite_code=invite_code)
-            relation.relation = UserSet.objects.get(user=user)
-        except (Models.Relation.DoesNotExist, UserSet.DoesNotExist):
-            return FailedResponse.invalid_invite_code()
+            friend = Models.UserProfile.objects.get(invite_code=invite_code)
+        except Models.UserProfile.DoesNotExist:
+            return FailedResponse.invalid_invite_code(invite_code)
 
-        if relation.user == user:
+        if friend.id == user.id:
             return FailedResponse.cannot_add_self()
 
-        if relation.status == ACCEPT:
-            return WarningResponse.already_been_friends()
+        # check if the friend has already been added
+        if friend.id in map(int, user.friends.split(", ")):
+            return WarningResponse.already_been_friends(user.username, friend.username)
 
-        relation.type = relation_type
-        relation.save()
-        return Response({"status": 0, "message": "success"})
+        Models.FriendSend.objects.create(user=user, relation=friend, type=relation_type)
+        return Response({"status": "0", "message": "success"})
 
 
 class Accept(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Accept
+    @get_userprofile
+    def list(self, request, user, inviteid: int):
+        try:
+            friend_request = Models.FriendSend.objects.get(id=inviteid)
+        except Models.FriendSend.DoesNotExist:
+            return FailedResponse.friend_request_not_exists()
 
-    @get_user
-    def list(self, request, user, inviteid):
-        relation = Models.Relation.objects.get(id=inviteid)
-        if relation is None:
-            return FailedResponse.relation_not_exists()
-        if relation.status != NOT_ANSWERED:
+        if friend_request.status != NOT_ANSWERED:
             return FailedResponse.already_answered()
 
-        relation.relation = UserSet.objects.get(user=user)
-        relation.status = ACCEPT
-        relation.read = 1
-        relation.save()
-        return Response({"status": 0, "message": "success"})
+        friend_request.status = ACCEPT
+        friend_request.read = True
+        friend_request.save()
+
+        # add friend to user's friend list
+        user.friend = (
+            user.friend
+            + (", " if user.friend else "")
+            + str(friend_request.relation.id)
+        )
+        user.save()
+        return Response({"status": "0", "message": "success"})
 
 
 class Refuse(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Refuse
-    # serializer_class = SerializerModule.Refuse
+    @get_userprofile
+    def list(self, request, user, inviteid: int):
+        try:
+            friend_request = Models.FriendSend.objects.get(id=inviteid)
+        except Models.FriendSend.DoesNotExist:
+            return FailedResponse.friend_request_not_exists()
 
-    @get_user
-    def list(self, request, user, inviteid):
-        relation = Models.Relation.objects.get(id=inviteid)
-        if relation is None:
-            return FailedResponse.relation_not_exists()
-        if relation.status != NOT_ANSWERED:
+        if friend_request.status != NOT_ANSWERED:
             return FailedResponse.already_answered()
 
-        relation.relation = None
-        relation.status = REFUSE
-        relation.read = 1
-        relation.save()
-        return Response({"status": 0, "message": "success"})
+        friend_request.status = REFUSE
+        friend_request.read = True
+        friend_request.save()
+
+        return Response({"status": "0", "message": "success"})
 
 
 class Remove(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Remove
-
-    @get_user
+    @get_userprofile
     def destroy(self, request, user):
-        if (ids := request.data.get("ids"), "") == "":
+        try:
+            ids = request.data["ids"]
+        except KeyError:
             return FailedResponse.invalid_data(request.data, ["ids"])
-        Models.Relation.objects.filter(id__in=ids).delete()
-        return Response({"status": 0, "message": "success"})
+
+        friend_set = set(map(int, user.friend))
+
+        Models.FriendSend.objects.filter(id__in=ids).delete()
+        user.friend = ", ".join(friend_set.difference(set(ids)))
+        user.save()
+        return Response({"status": "0", "message": "success"})
 
 
 class Result(viewsets.ViewSet):
-    metadata_class = FriendMetadata.Result
-    serializer_class = SerializerModule.ResultSerializer
-
-    @get_user
+    @get_userprofile
     def list(self, request, user):
-        serializer = self.serializer_class(
-            Models.Relation.objects.filter(user=user, type__lt=INVALID_TYPE, read=1),
-            many=True,
-        )
-        return Response({"status": 0, "message": "success", "data": serializer.data})
+        result_list = []
+        results = Models.FriendSend.objects.filter(user=user, read=True).all()
+
+        for result in results:
+            result_dict = model_to_dict(result, exclude=["user", "relation"])
+
+            # manully add user_id and user and relation_id to friend_dict
+            result_dict["user_id"] = user.id
+            result_dict["relation_id"] = result.relation.id  # type: ignore
+            result_dict["relation"] = {
+                "id": result.relation.id,
+                "username": result.relation.username,
+                "account": result.relation.account,
+            }
+
+            result_list.append(result_dict)
+
+        return Response({"status": "0", "message": "success", "results": result_list})

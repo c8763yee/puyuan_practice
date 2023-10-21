@@ -1,19 +1,20 @@
 from django.db import models
 
 from api.models import BaseFriend
-from puyuan.const import INVALID_TYPE
+from puyuan.const import INVALID_FRIEND_TYPE, NOT_ANSWERED
 
-from ..user.models import UserSet
+from ..auths.models import UserProfile
 
 
 # Create your models here.
 
 
-class Relation(BaseFriend):
-    invite_code = models.CharField(max_length=255, null=True)
-    relation = models.ForeignKey(UserSet, on_delete=models.CASCADE, null=True)
-    type = models.IntegerField(default=INVALID_TYPE)
-    status = models.IntegerField(default=0)
-    read = models.IntegerField(default=0)
+class FriendSend(BaseFriend):
+    relation = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, related_name="friend_relation"
+    )
+    type = models.IntegerField(default=INVALID_FRIEND_TYPE)
+    status = models.IntegerField(default=NOT_ANSWERED)
+    read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

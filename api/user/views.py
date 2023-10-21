@@ -1,143 +1,158 @@
+from functools import partial
 import re
+import json
 from typing import Type
+
 from django.shortcuts import render
 from django.forms.models import model_to_dict
-from django.utils import timezone
 from django.db.models import Model as django_model
-from rest_framework import status, viewsets
+from rest_framework import viewsets
 from rest_framework.response import Response
+
 from api import logger
-from api.utils import get_user, FailedResponse
+from api.utils import get_userprofile, FailedResponse
 
-from puyuan.const import DEFAULT_DIARY_DICT
+from puyuan.const import DEFAULT_DIARY_DICT, INVALID_DRUG_TYPE
 
-from . import serializer as SerializerModule, metadata as UserMetadata, models as Models
+from . import serializer as SerializerModule, models as Models
 
 # Create your views here.
 
 
-class UserInfo(viewsets.ViewSet):  # API No. 11 and 12
-    metadata_class = UserMetadata.User
-    serializer_class = SerializerModule.UserSetSerializer
-
-    @get_user
+class UserInfo(viewsets.ViewSet):
+    @get_userprofile
     def list(self, request, user):  # method: GET
-        user_set, created = Models.UserSet.objects.get_or_create(user=user)
-        if created and user_set.default and user_set.setting:
-            pass
-        default = Models.Default.objects.get_or_create(user=user)[0]
-        setting = Models.Setting.objects.get_or_create(user=user)[0]
-        user_set.default = default
-        user_set.setting = setting
-        user_set.save()
-
-        serializer_data = self.serializer_class(user_set).data
+        serializer_data = SerializerModule.UserSetOutputSerializer(user).data
         return Response(
-            {"status": 0, "message": "success", "user": serializer_data},
-            status=status.HTTP_200_OK,
+            {"status": "0", "message": "success", "user": serializer_data},
         )
 
-    @get_user
+    @get_userprofile
+    def partial_update(self, request, user, pk=None):
+        name = request.data.get("name", None)
+        birthday = request.data.get("birthday", None)
+        height = request.data.get("height", None)
+        weight = request.data.get("weight", None)
+        phone = request.data.get("phone", None)
+        email = request.data.get("email", None)
+        gender = request.data.get("gender", None)
+        fcm_id = request.data.get("fcm_id", None)
+        address = request.data.get("address", None)
+
+        for data in [
+            "name",
+            "birthday",
+            "height",
+            "weight",
+            "phone",
+            "email",
+            "gender",
+            "fcm_id",
+            "address",
+        ]:
+            if not locals()[data]:
+                continue
+
+            if data == "height":
+                user.init_height = locals()[data]
+            elif data == "weight":
+                user.init_weight = float(locals()[data])
+            else:
+                setattr(user, data, locals()[data])
+        user.save()
+        return Response(
+            {"status": "0", "message": "success"},
+        )
+
+
+class Default(viewsets.ViewSet):
+    serializer_class = SerializerModule.DefaultSerializer
+
+    @get_userprofile
     def partial_update(self, request, user, pk=None):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
         try:
-            instance = Models.UserSet.objects.get(user=user)
-        except Models.UserSet.DoesNotExist:
-            default = Models.Default.objects.get_or_create(user=user)[0]
-            setting = Models.Setting.objects.get_or_create(user=user)[0]
-            serializer.save(default=default, setting=setting, user_alt=user)
-        else:
-            serializer.update(instance, serializer.validated_data)
-
-        if (email := request.data.get("email")) and user.email != email:
-            user.email = email
-            user.save()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
-
-
-class Default(viewsets.ViewSet):
-    metadata_class = UserMetadata.Default
-    serializer_class = SerializerModule.DefaultSerializer
-
-    @get_user
-    def partial_update(self, request, user, pk=None):
-        serializer = self.serializer_class(data=request.data, partial=True)
-        if serializer.is_valid() is False:
-            return FailedResponse.serializer_is_not_valid(serializer)
-
-        if Models.Default.objects.filter(user=user).exists():
             instance = Models.Default.objects.get(user=user)
-            serializer.update(instance, serializer.validated_data)
-        else:
+        except Models.Default.DoesNotExist:
             serializer.save(user=user)
+        else:
+            serializer.update(instance, serializer.validated_data)
 
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Setting(viewsets.ViewSet):
-    metadata_class = UserMetadata.Setting
     serializer_class = SerializerModule.SettingSerializer
 
-    @get_user
+    @get_userprofile
     def partial_update(self, request, user, pk=None):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
-        if Models.Setting.objects.filter(user=user).exists():
-            instance = Models.Setting.objects.get(user=user)
-            serializer.update(instance, serializer.validated_data)
-        else:
-            serializer.save(user=user)
 
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        try:
+            instance = Models.Setting.objects.get(user=user)
+        except Models.Setting.DoesNotExist:
+            serializer.save(user=user)
+        else:
+            serializer.update(instance, serializer.validated_data)
+
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class BloodPressure(viewsets.ViewSet):
-    metadata_class = UserMetadata.BloodPressure
     serializer_class = SerializerModule.BloodPressureSerializer
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
         serializer.save(user=user)
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Weight(viewsets.ViewSet):
-    metadata_class = UserMetadata.Weight
     serializer_class = SerializerModule.WeightSerializer
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
-        serializer = self.serializer_class(data=request.data, partial=True)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
-        serializer.save(user=user, recorded_at=timezone.now())
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        serializer.save(user=user)
+        user.weight = serializer.validated_data["weight"]  # type: ignore
+        user.save()
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class BloodSugar(viewsets.ViewSet):
-    metadata_class = UserMetadata.BloodSugar
     serializer_class = SerializerModule.BloodSugarSerializer
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
-        serializer = self.serializer_class(data=request.data, partial=True)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
-        serializer.save(user=user, recorded_at=timezone.now())
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        serializer.save(user=user)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Record(viewsets.ViewSet):  # API No.18 and 21
-    metadata_class = UserMetadata.Record
-
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         try:
             diets = request.data["diets"]
@@ -164,7 +179,7 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
 
         return Response(
             {
-                "status": 0,
+                "status": "0",
                 "message": "success",
                 "blood_sugars": blood_sugar_value,
                 "blood_pressures": blood_pressure_value,
@@ -172,7 +187,7 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
             }
         )
 
-    @get_user
+    @get_userprofile
     def destroy(self, request, user, pk=None):
         blood_pressure_to_delete = request.data.get("blood_pressure", [])
         weight_to_delete = request.data.get("weights", [])
@@ -196,13 +211,13 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
             user=user, id__in=blood_sugar_to_delete
         ).delete()
 
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Diary(viewsets.ViewSet):
-    metadata_class = UserMetadata.Diary
-
-    @get_user
+    @get_userprofile
     def list(self, request, user):
         return_data = []
         self.idx = 0
@@ -212,7 +227,7 @@ class Diary(viewsets.ViewSet):
             data_type: str,
             fields: list[str] = [
                 "user"
-            ],  # use user as default because every model has user field
+            ],  #  every model in this app must have user field
             exclude: list[str] = [],
             extra_arguments: dict[str, list[str]] = {},
         ):
@@ -227,10 +242,10 @@ class Diary(viewsets.ViewSet):
 
                 for extra_field, extra_field_value in extra_arguments.items():
                     instance_dict[extra_field] = {
-                        value: attr
+                        value: instance_attribute
                         for value in extra_field_value
-                        if (attr := getattr(instance, value, None))
-                        and attr not in instance_dict.keys()
+                        if (instance_attribute := getattr(instance, value, None))
+                        and instance_attribute not in instance_dict.keys()
                     }
 
                 source_dict.update(
@@ -266,150 +281,158 @@ class Diary(viewsets.ViewSet):
         )
         add_data(Models.Weight, "weight", exclude=["user"])
 
-        return Response({"status": 0, "message": "success", "diaries": return_data})
+        return Response({"status": "0", "message": "success", "diary": return_data})
 
 
 class Diet(viewsets.ViewSet):
-    metadata_class = UserMetadata.Diet
     serializer_class = SerializerModule.DietSerializer
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
         serializer.save(user=user)
-        return Response({"status": 0, "message": "success"})
+        return Response({"status": "0", "message": "success"})
 
 
 class A1c(viewsets.ViewSet):
-    metadata_class = UserMetadata.A1c
     serializer_class = SerializerModule.A1cSerializer
 
-    @get_user
+    @get_userprofile
     def list(self, request, user):
         serializer = self.serializer_class(
             Models.A1c.objects.filter(user=user), many=True
         )
-        return Response({"status": 0, "message": "success", "a1c": serializer.data})
+        return Response({"status": "0", "message": "success", "a1cs": serializer.data})
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
         serializer.save(user=user)
-        return Response({"status": 0, "message": "success"})
+        return Response({"status": "0", "message": "success"})
 
-    @get_user
+    @get_userprofile
     def destroy(self, request, user, pk=None):
         ids = request.data.get("ids", [])
         if isinstance(ids, list) is False:
             return FailedResponse.invalid_datatype()
 
         Models.A1c.objects.filter(user=user, id__in=ids).delete()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Medical(viewsets.ViewSet):
-    metadata_class = UserMetadata.Medical
     serializer_class = SerializerModule.MedicalSerializer
 
-    @get_user
+    @get_userprofile
     def list(self, request, user):
         medical_info = {}
-        medical = Models.Medical.objects.filter(user=user).first()
-        if medical is None:
-            medical = Models.Medical.objects.create(user=user)
+        try:
+            medical = Models.Medical.objects.get(user=user)
+        except Models.Medical.DoesNotExist:
+            return FailedResponse.object_does_not_exists(object_name="Medical")
+
         medical_info = model_to_dict(medical)
         # manually add created_at and updated_at because model_to_dict won't include them
         medical_info["created_at"] = medical.created_at
         medical_info["updated_at"] = medical.updated_at
         medical_info["user_id"] = medical_info.pop("user")
 
-        return Response({"status": 0, "message": "success", "medical": medical_info})
+        # bool -> int
+        medical_info["oad"] = int(medical_info["oad"])
+        medical_info["insulin"] = int(medical_info["insulin"])
+        medical_info["anti_hypertensives"] = int(medical_info["anti_hypertensives"])
 
-    @get_user
+        return Response(
+            {"status": "0", "message": "success", "medical_info": medical_info}
+        )
+
+    @get_userprofile
     def partial_update(self, request, user, pk=None):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
-        if Models.Medical.objects.filter(user=user).exists():
+        try:
             instance = Models.Medical.objects.get(user=user)
-            serializer.update(instance, serializer.validated_data)
-        else:
+        except Models.Medical.DoesNotExist:
             serializer.save(user=user)
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        else:
+            serializer.update(instance, serializer.validated_data)
+
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Drug(viewsets.ViewSet):
-    metadata_class = UserMetadata.Drug
     serializer_class = SerializerModule.DrugSerializer
 
-    @get_user
+    @get_userprofile
     def list(self, request, user):
         serializer = self.serializer_class(
-            Models.Drug.objects.filter(user=user), many=True
+            Models.Drug.objects.filter(user=user, type__lt=INVALID_DRUG_TYPE), many=True
         )
         return Response(
-            {"status": 0, "message": "success", "drug_useds": serializer.data}
+            {"status": "0", "message": "success", "drug_useds": serializer.data}
         )
 
-    @get_user
+    @get_userprofile
     def create(self, request, user):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
         serializer.save(user=user)
-        return Response({"status": 0, "message": "success"})
+        return Response({"status": "0", "message": "success"})
 
-    @get_user
+    @get_userprofile
     def destroy(self, request, user, pk=None):
         ids = request.data.get("ids", [])
         if isinstance(ids, list) is False:
             return FailedResponse.invalid_datatype()
 
         Models.Drug.objects.filter(user=user, id__in=ids).delete()
-        return Response({"status": 0, "message": "success"}, status=status.HTTP_200_OK)
+        return Response(
+            {"status": "0", "message": "success"},
+        )
 
 
 class Care(viewsets.ViewSet):
-    metadata_class = UserMetadata.Care
     serializer_class = SerializerModule.CareSerializer
 
-    @get_user
+    @get_userprofile
     def list(self, request, user):
         serializer = self.serializer_class(
             Models.Care.objects.filter(user=user), many=True
         )
-        if serializer.data:
-            return Response(
-                {"status": 0, "message": "success", "cares": serializer.data}
-            )
-        return Response({"status": 0, "message": "success", "cares": []})
 
-    @get_user
+        return Response(
+            {"status": "0", "message": "success", "cares": serializer.data or []}
+        )
+
+    @get_userprofile
     def create(self, request, user):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
         serializer.save(user=user, reply_id=1)
-        return Response({"status": 0, "message": "success"})
+        return Response({"status": "0", "message": "success"})
 
 
 class Badge(viewsets.ViewSet):
-    metadata_class = UserMetadata.Badge
-
-    @get_user
+    @get_userprofile
     def update(self, request, user):  # method: PUT
-        user_set = Models.UserSet.objects.get(user=user)
         badge = request.data.get("badge", -1)
         if isinstance(badge, int) and badge >= 0:
-            user_set.badge = badge
-            user_set.save()
+            user.badge = badge
+            user.save()
         else:
             return FailedResponse.invalid_datatype()
-        return Response({"status": 0, "message": "success"})
+        return Response({"status": "0", "message": "success"})

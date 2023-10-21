@@ -29,6 +29,7 @@ class BaseSetting(models.Model):  # allow only one setting per user
         "auths.UserProfile",
         on_delete=models.CASCADE,
         unique=True,
+        related_name="%(app_label)s_%(class)s",
     )
 
     class Meta:

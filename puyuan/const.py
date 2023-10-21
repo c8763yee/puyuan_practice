@@ -1,3 +1,7 @@
+from string import ascii_letters, digits
+
+ALNUM = ascii_letters + digits
+
 MINUTE = 60
 HOUR = 60 * MINUTE
 DAY = 24 * HOUR
@@ -14,7 +18,9 @@ SALT = "NUTCIMACPUYUAN"
 NOT_ANSWERED = 0
 ACCEPT = 1
 REFUSE = 2
-INVALID_TYPE = 3
+INVALID_FRIEND_TYPE = 3
+
+INVALID_DRUG_TYPE = 2
 
 DIET_LEN = 8
 DIET_TIME = ["晨起", "早餐前", "早餐後", "午餐前", "午餐後", "晚餐前", "晚餐後", "睡前"]

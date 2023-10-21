@@ -1,6 +1,6 @@
 {
     "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": false,
+    "python.analysis.autoImportCompletions": true,
     "sqltools.connections": [
         {
             "previewLimit": 50,

@@ -6,12 +6,12 @@ from . import views as AuthView
 class AcceptOrRefuse:
     urlpatterns = [
         path(
-            "accept/",
+            "accept",
             AuthView.Accept.as_view({"get": "list"}),
             name="accept_Invitation",
         ),
         path(
-            "refuse/",
+            "refuse",
             AuthView.Refuse.as_view({"get": "list"}),
             name="refuse_Invitation",
         ),
@@ -20,11 +20,11 @@ class AcceptOrRefuse:
 
 
 urlpatterns = [
-    path("code/", AuthView.Code.as_view({"get": "list"}), name="code"),
-    path("list/", AuthView.List.as_view({"get": "list"}), name="list"),
-    path("requests/", AuthView.Requests.as_view({"get": "list"}), name="requests"),
+    path("code", AuthView.Code.as_view({"get": "list"}), name="code"),
+    path("list", AuthView.List.as_view({"get": "list"}), name="list"),
+    path("requests", AuthView.Requests.as_view({"get": "list"}), name="requests"),
     path("send/", AuthView.Send.as_view({"post": "create"}), name="send"),
     path("<int:inviteid>/", include(AcceptOrRefuse)),
     path("remove/", AuthView.Remove.as_view({"delete": "destroy"}), name="remove"),
-    path("results/", AuthView.Result.as_view({"get": "list"}), name="result"),
+    path("results", AuthView.Result.as_view({"get": "list"}), name="result"),
 ]

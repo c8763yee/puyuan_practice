@@ -1,24 +1,24 @@
+import json
 import random
 from functools import wraps
 
 from django.utils import timezone
-from django.forms.models import model_to_dict
 from django.contrib.sessions.models import Session
 from rest_framework import status, serializers
 from rest_framework.response import Response
 
 from api import logger
-from api.models import BaseUser
+from puyuan.const import ALNUM
 
 from .auths.models import UserProfile
 
 
 def failed_response(status: int = status.HTTP_400_BAD_REQUEST, **extra):
-    return Response({"status": 1, "message": "fail", **extra}, status=status)
+    return Response({"status": "1", "message": "fail", **extra}, status=status)
 
 
 def warning_response(status: int, message: str, **extra):
-    return Response({"status": 2, "message": message, **extra}, status=status)
+    return Response({"status": "2", "message": message, **extra}, status=status)
 
 
 class WarningResponse:
@@ -28,14 +28,16 @@ class WarningResponse:
     """
 
     @staticmethod
-    def already_been_friends() -> Response:
+    def already_been_friends(user_name: str, friend_name: str) -> Response:
         """
         Returns a Response object with status code 409 (Conflict) and a message indicating that the users are already friends.
 
         Returns:
             Response: A Response object with status code 409 and a message indicating that the users are already friends.
         """
-        logger.warning(f"already been friends")
+        logger.warning(
+            f"add friend failed: {user_name} and {friend_name} have already been friends"
+        )
         return warning_response(status.HTTP_409_CONFLICT, "already been friends")
 
     @staticmethod
@@ -62,16 +64,38 @@ class FailedResponse:
     """
 
     @staticmethod
-    def invalid_date_format(date, expect_format):
+    def friend_request_not_exists() -> Response:
+        """
+        Returns a Response object with status code 404 (Not Found) and a message indicating that the friend request does not exist.
+
+        Returns:
+            Response: A Response object with status code 404 and a message indicating that the friend request does not exist.
+        """
+        logger.error(f"this friend request does not exist")
+        return failed_response(status=status.HTTP_404_NOT_FOUND)
+
+    @staticmethod
+    def cannot_get_token() -> Response:
+        """
+        Returns a Response object with status code 401 (Unauthorized) and a message indicating that the user cannot get a token.
+
+        Returns:
+            Response: A Response object with status code 401 and a message indicating that the user cannot get a token.
+        """
+        logger.error(f"cannot get token, please login again")
+        return failed_response(status=status.HTTP_401_UNAUTHORIZED)
+
+    @staticmethod
+    def invalid_date_format(date, expect_format: str) -> Response:
         logger.error(
             f"""invalid date:
-                            the valid date format is {expect_format} but got {date}
-                            """
+                the valid date format is {expect_format} but got {date}
+            """
         )
         return failed_response(status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
-    def invalid_data(forms: list[str], required: list[str]) -> Response:
+    def invalid_data(received_data: list[str], required: list[str]) -> Response:
         """
         Returns a Response object with status code 400 (Bad Request) and a message indicating that the data is invalid.
 
@@ -84,9 +108,9 @@ class FailedResponse:
         """
         logger.error(
             f""" Invalid data
-            forms: {forms}
+            received: {received_data}
             required: {required}
-            missing: {set(required) - set(forms)}
+            missing: {set(required) - set(received_data)}
             """
         )
         return failed_response(status=status.HTTP_400_BAD_REQUEST)
@@ -102,7 +126,7 @@ class FailedResponse:
         Returns:
             Response: A Response object with status code 400 and a message indicating that the serializer is not valid.
         """
-        logger.error(f"serializer is not valid: {serializer.errors}")
+        logger.error(f"serializer is not valid, the error is: {serializer.errors}")
         return failed_response(status=status.HTTP_400_BAD_REQUEST)
 
     @staticmethod
@@ -113,7 +137,21 @@ class FailedResponse:
         Returns:
             Response: A Response object with status code 204 and a message indicating that the user does not exist.
         """
-        logger.error(f"register failed: user not exist")
+        logger.error(f"register failed: user not exists\n")
+        return failed_response(status=status.HTTP_204_NO_CONTENT)
+
+    @staticmethod
+    def object_does_not_exists(object_name: str = "object") -> Response:
+        """
+        Returns a Response object with status code 204 (No Content) and a message indicating that the object does not exist.
+
+        Args:
+            object_name (str, optional): The name of the object that does not exist. Defaults to "object".
+
+        Returns:
+            Response: A Response object with status code 204 and a message indicating that the object does not exist.
+        """
+        logger.error(f"{object_name} not exists\n")
         return failed_response(status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
@@ -261,14 +299,14 @@ class FailedResponse:
         return failed_response(status=status.HTTP_409_CONFLICT)
 
     @staticmethod
-    def invalid_invite_code() -> Response:
+    def invalid_invite_code(invite_code: str) -> Response:
         """
         Returns a Response object with status code 404 (Not Found) and a message indicating that the invite code is invalid.
 
         Returns:
             Response: A Response object with status code 404 and a message indicating that the invite code is invalid.
         """
-        logger.error(f"invalid invite code")
+        logger.error(f"invalid invite code: {invite_code}")
         return failed_response(status=status.HTTP_404_NOT_FOUND)
 
 
@@ -292,9 +330,7 @@ def get_token_from_headers(request) -> str:
     return bearer_token.split(" ")[1]
 
 
-def get_user_by_token(
-    token_key: str, allow_forgot_password: bool = False
-) -> UserProfile:
+def get_user_by_token(token_key: str) -> UserProfile:
     """
     Retrieve a user profile by token key.
 
@@ -309,28 +345,32 @@ def get_user_by_token(
         Session.DoesNotExist: If the session with the token key does not exist.
         UserProfile.DoesNotExist: If the user profile associated with the token key does not exist or is not active or has forgot password status and allow_forgot_password is False.
     """
-    token = Session.objects.get(session_key=token_key)
+    try:
+        token = Session.objects.get(session_key=token_key)
+    except Session.DoesNotExist:
+        logger.warning("Token not found")
+        raise Session.DoesNotExist("Token not found")
 
-    # check if token is expired
     if token.expire_date < timezone.now():
         logger.warning("Token expired")
         raise Session.DoesNotExist("Token expired")
-    user = UserProfile.objects.get(id=token.get_decoded()["user_id"])
+
+    try:
+        user = UserProfile.objects.get(id=token.get_decoded()["user_id"])
+    except UserProfile.DoesNotExist:
+        logger.warning("User not found")
+        raise UserProfile.DoesNotExist("User not found")
 
     if user.is_active is False:
-        logger.warning("User not verified")
-        raise UserProfile.DoesNotExist("User not verified")
-
-    if user.is_forgot_password and not allow_forgot_password:
-        logger.warning("Since user forgot it's password, we cannot get user by token")
-        raise UserProfile.DoesNotExist("User forgot password")
+        logger.warning("User is not verified")
+        raise UserProfile.DoesNotExist("User is not verified")
 
     return user
 
 
-def get_user_via_bearer(allow_forgot_password=False):
+def get_userprofile(view_func):
     """
-    A decorator function that retrieves a user object from a bearer token in the request headers.
+    A decorator function that wraps a view function and adds authentication and authorization checks.
 
     Args:
         allow_forgot_password (bool): A flag indicating whether to allow users who forgot their password to authenticate.
@@ -339,53 +379,57 @@ def get_user_via_bearer(allow_forgot_password=False):
         A decorated function that takes in an instance, request, user, and additional arguments and returns the result of the decorated function.
     """
 
-    def inner(view_func):
-        @wraps(view_func)
-        def _wrapper_view(instance, request, *args, **kwargs) -> Response:
-            """
-            A decorator function that wraps a view function and adds authentication and authorization checks.
+    @wraps(view_func)
+    def _wrapper_view(instance, request, *args, **kwargs) -> Response:
+        """
+        A decorator function that wraps a view function and adds authentication and authorization checks.
 
-            Args:
-                instance: The instance of the view function.
-                request: The HTTP request object.
-                *args: Additional positional arguments for the view function.
-                **kwargs: Additional keyword arguments for the view function.
+        Args:
+            instance: The instance of the view function.
+            request: The HTTP request object.
+            *args: Additional positional arguments for the view function.
+            **kwargs: Additional keyword arguments for the view function.
 
-            Returns:
-                The response object returned by the view function.
-            """
-            try:
-                token = get_token_from_headers(request)
-            except AssertionError as invalid_header:
-                logger.error(invalid_header)
-                return Response(
-                    {"status": 1, "message": "fail"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-            try:
-                user = get_user_by_token(token, allow_forgot_password)
-            except (Session.DoesNotExist, UserProfile.DoesNotExist):
-                logger.error(
-                    f"""failed to get user by token. this may be caused by:
-                    1. token expired
-                    2. user is not verified
-                    3. user forgot password
-                    """
-                )
-                return Response(
-                    {"status": 1, "message": "fail"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-            else:
-                return view_func(instance, request, user, *args, **kwargs)
+        Returns:
+            The response object returned by the view function.
+        """
+        try:
+            token = get_token_from_headers(request)
+        except AssertionError as invalid_header:
+            logger.error(invalid_header)
+            return Response(
+                {"status": 1, "message": "fail"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        try:
+            user = get_user_by_token(token)
+        except (Session.DoesNotExist, UserProfile.DoesNotExist):
+            logger.error(
+                f"""failed to get user by token. this may be caused by:
+                1. token expired
+                2. user is not verified
+                3. user forgot password
+                """
+            )
+            return Response(
+                {"status": 1, "message": "fail"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        else:
+            return view_func(instance, request, user, *args, **kwargs)
 
-        return _wrapper_view
-
-    return inner
-
-
-get_user = get_user_via_bearer()
+    return _wrapper_view
 
 
 def random_username(k: int = 8, prefix="User") -> str:
-    return f"{prefix}{''.join(random.choices('0123456789', k=k))}"
+    return f"{prefix}{''.join(random.choices(ALNUM, k=k))}"
+
+
+def debug_request_data(data: dict):
+    logger.debug(
+        json.dumps(
+            data,
+            indent=4,
+            ensure_ascii=False,
+        )
+    )

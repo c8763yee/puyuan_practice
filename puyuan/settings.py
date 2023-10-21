@@ -17,7 +17,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-APPEND_SLASH = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +25,7 @@ SECRET_KEY = "django-insecure-@+64*b@sgoi%p%#@n$^bb!p65-vpsr#zg_zaj8=x54vabbp-i+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.50.241", "localhost"]
 
 # Application definition
 
@@ -136,7 +135,7 @@ AUTH_USER_MODEL = "auths.UserProfile"
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
@@ -170,3 +169,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "rrrrr4413@gmail.com"
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+APPEND_SLASH = False
+
+DATE_FORMAT = "%Y-%m-%d"
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
