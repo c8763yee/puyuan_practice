@@ -1133,3 +1133,364 @@ ERROR 2023-10-21 19:21:08,236 utils 29579 140080401651392 register failed: user 
 INFO 2023-10-21 19:25:44,626 views 30048 139700620752576 verification code: 443970
 ERROR 2023-10-21 19:36:27,180 utils 31368 140641992439488 register failed: user not exists
 
+ERROR 2023-10-21 19:56:15,172 utils 33736 139796118562496 register failed: user not exists
+
+DEBUG 2023-10-21 20:05:44,285 views 34789 139942612473536 []
+DEBUG 2023-10-21 20:06:27,660 views 34899 140067035977408 []
+DEBUG 2023-10-21 20:07:40,211 views 35118 140302220261056 []
+DEBUG 2023-10-21 20:07:42,007 views 35118 140302220261056 []
+DEBUG 2023-10-21 20:09:55,842 views 35118 140302211868352 [{'id': 2, 'username': 'UseryBsjhS2H', 'relation_type': 0}]
+DEBUG 2023-10-21 20:10:32,002 views 35341 139911845217984 [{'id': 2, 'name': 'UseryBsjhS2H', 'relation_type': 0}]
+DEBUG 2023-10-21 20:11:28,112 views 35504 139929934104256 [{'id': 2, 'name': 'UseryBsjhS2H', 'relation_type': 0}]
+ERROR 2023-10-21 20:11:41,467 utils 35577 140460393756352  Invalid data
+            received: {'ids[]': 2}
+            required: ['ids']
+            missing: {'ids'}
+            
+ERROR 2023-10-21 20:12:26,897 utils 35683 140355667162816  Invalid data
+            received: dict_keys(['ids[]'])
+            required: ['ids']
+            missing: {'ids'}
+            
+ERROR 2023-10-21 20:14:34,329 utils 35898 140451873027776 cannot add user self
+ERROR 2023-10-23 12:38:30,747 utils 12597 140278766950080 Bearer token not found or invalid
+ERROR 2023-10-23 12:38:30,749 utils 12597 140278758557376 Bearer token not found or invalid
+ERROR 2023-10-23 12:38:30,750 utils 12597 140278750164672 Bearer token not found or invalid
+ERROR 2023-10-23 12:38:30,752 utils 12597 140278741771968 Bearer token not found or invalid
+ERROR 2023-10-23 12:39:18,836 utils 12597 140278766950080 register failed: user not exists
+
+INFO 2023-10-23 12:39:56,116 views 12597 140278766950080 verification code: 971221
+DEBUG 2023-10-23 12:40:11,495 views 12597 140278766950080 []
+INFO 2023-10-23 12:44:36,276 views 12597 140278766950080 verification code: 683121
+DEBUG 2023-10-23 12:44:51,256 views 12597 140278766950080 []
+ERROR 2023-10-23 12:47:16,019 utils 12597 140278750164672 Bearer token not found or invalid
+ERROR 2023-10-23 12:47:16,021 utils 12597 140278395565760 Bearer token not found or invalid
+DEBUG 2023-10-23 12:47:19,597 views 12597 140278395565760 []
+ERROR 2023-10-23 12:50:07,126 utils 12597 140278750164672 Bearer token not found or invalid
+ERROR 2023-10-23 12:50:07,130 utils 12597 140278361994944 Bearer token not found or invalid
+ERROR 2023-10-23 12:50:07,133 utils 12597 140278353602240 Bearer token not found or invalid
+ERROR 2023-10-23 12:50:07,137 utils 12597 140278766950080 Bearer token not found or invalid
+ERROR 2023-10-23 12:50:07,142 utils 12597 140278361994944 Bearer token not found or invalid
+ERROR 2023-10-23 12:50:07,167 utils 12597 140278766950080 Bearer token not found or invalid
+DEBUG 2023-10-23 12:50:14,815 views 12597 140278345209536 []
+ERROR 2023-10-23 12:50:31,419 utils 12597 140278766950080 login failed: password is wrong: UserRiCOqyJx
+DEBUG 2023-10-23 12:50:55,065 views 12597 140278766950080 []
+ERROR 2023-10-23 12:51:08,967 utils 12597 140278766950080 invalid invite code: 228229343
+DEBUG 2023-10-23 12:51:34,835 views 12597 140278766950080 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 1}]
+DEBUG 2023-10-23 12:51:40,086 views 12597 140278345209536 []
+DEBUG 2023-10-23 12:52:32,042 views 14312 140659404121792 []
+DEBUG 2023-10-23 12:52:59,754 views 14312 140659404121792 []
+WARNING 2023-10-23 12:53:27,490 utils 14312 140659404121792 add friend failed: User8stZ73QO and UserRiCOqyJx have already been friends
+ERROR 2023-10-23 12:53:30,525 utils 14312 140659147130560 invalid invite code: 228234
+DEBUG 2023-10-23 12:53:33,248 views 14312 140659404121792 []
+DEBUG 2023-10-23 12:54:10,012 views 14312 140659395729088 []
+DEBUG 2023-10-23 12:54:14,134 views 14312 140659395729088 []
+ERROR 2023-10-23 12:54:22,504 utils 14312 140659395729088 cannot add user self
+DEBUG 2023-10-23 12:54:30,327 views 14312 140659155523264 []
+DEBUG 2023-10-23 12:54:59,220 views 14312 140659395729088 []
+DEBUG 2023-10-23 12:55:10,137 views 14312 140659172308672 []
+DEBUG 2023-10-23 12:55:12,362 views 14312 140659395729088 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 1}, {'id': 1, 'name': 'User8stZ73QO', 'relation_type': 1}]
+INFO 2023-10-23 13:00:44,988 views 30609 139827260208832 verification code: 606162
+DEBUG 2023-10-23 13:01:02,520 views 30609 139827260208832 []
+ERROR 2023-10-23 13:01:43,536 utils 30609 139827260208832 Bearer token not found or invalid
+ERROR 2023-10-23 13:01:43,541 utils 30609 139827242374848 Bearer token not found or invalid
+ERROR 2023-10-23 13:01:43,545 utils 30609 139827251816128 Bearer token not found or invalid
+DEBUG 2023-10-23 13:01:52,955 views 30609 139827260208832 []
+ERROR 2023-10-23 13:06:04,553 utils 30609 139827260208832 Bearer token not found or invalid
+ERROR 2023-10-23 13:06:04,556 utils 30609 139826888177344 Bearer token not found or invalid
+ERROR 2023-10-23 13:06:04,562 utils 30609 139826854606528 Bearer token not found or invalid
+ERROR 2023-10-23 13:06:04,565 utils 30609 139826879784640 Bearer token not found or invalid
+DEBUG 2023-10-23 13:06:17,841 views 30609 139827260208832 []
+DEBUG 2023-10-23 13:12:34,493 views 32168 140288932705984 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+ERROR 2023-10-23 13:12:42,521 utils 32168 140288932705984 cannot add user self
+ERROR 2023-10-23 13:14:08,185 utils 32168 140288932705984 cannot add user self
+WARNING 2023-10-23 13:14:32,593 utils 32168 140288932705984 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+DEBUG 2023-10-23 13:16:16,330 views 32168 140288890742464 []
+DEBUG 2023-10-23 17:26:23,234 views 3344 140130018916032 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+ERROR 2023-10-23 17:26:23,247 utils 3344 140129976952512 invalid invite code: 
+ERROR 2023-10-23 17:26:23,314 utils 3344 140130018916032 invalid invite code: 
+ERROR 2023-10-23 17:26:23,505 utils 3344 140129985345216 invalid invite code: 
+DEBUG 2023-10-23 17:26:23,523 views 3344 140130002130624 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+DEBUG 2023-10-23 17:26:23,531 views 3344 140130018916032 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+WARNING 2023-10-23 17:26:23,651 utils 3344 140130018916032 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+WARNING 2023-10-23 17:26:23,655 utils 3344 140130002130624 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+DEBUG 2023-10-23 17:26:23,659 views 3344 140130010523328 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+WARNING 2023-10-23 17:26:23,692 utils 3344 140129993737920 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+DEBUG 2023-10-23 17:26:23,711 views 3344 140130018916032 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+WARNING 2023-10-23 17:26:24,197 utils 3344 140129976952512 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+WARNING 2023-10-23 17:26:24,444 utils 3344 140130010523328 add friend failed: UserRiCOqyJx and User8stZ73QO have already been friends
+DEBUG 2023-10-23 17:26:24,712 views 3344 140129985345216 [{'id': 1, 'name': 'User8stZ73QO', 'relation_type': 2}]
+ERROR 2023-10-23 17:26:24,727 utils 3344 140130002130624 invalid invite code: 
+ERROR 2023-10-23 17:26:24,737 utils 3344 140130010523328 invalid invite code: 
+ERROR 2023-10-23 17:26:24,755 utils 3344 140129976952512 invalid invite code: 
+ERROR 2023-10-23 17:26:24,881 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,926 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,930 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,938 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,940 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,961 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,969 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,974 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,980 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,988 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,990 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:24,999 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,000 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,010 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,012 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,025 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,026 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,034 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,042 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,043 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,052 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,056 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,063 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,065 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,074 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,078 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,084 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,089 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,097 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,098 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,109 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,115 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,128 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,129 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,140 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,143 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,153 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,156 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,164 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,165 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,173 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,177 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,189 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,220 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,226 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,235 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,239 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,250 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,256 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,268 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,276 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,283 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,291 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,296 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,306 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,311 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,316 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,323 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,331 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,332 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,345 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,351 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,361 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,363 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,372 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,376 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,387 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,388 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,403 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,406 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,420 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,421 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,431 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,436 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,441 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,448 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,455 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,460 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,467 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,471 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,475 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,483 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,485 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,489 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,502 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,506 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,508 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,519 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,521 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,523 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,532 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,535 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,538 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,545 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,552 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,555 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,559 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,569 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,571 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,582 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,590 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,591 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,617 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,621 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,623 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,624 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,631 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,641 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,642 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,643 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,645 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,646 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,657 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,658 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,660 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,674 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,675 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,678 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,679 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,680 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,681 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,691 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,697 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,698 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,700 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,701 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,702 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,705 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,720 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,722 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,722 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,723 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,724 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,725 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,737 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,739 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,739 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,740 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,740 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,742 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,755 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,756 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,757 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,758 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,759 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,760 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,776 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,780 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,781 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,783 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,787 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,789 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,794 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,797 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,806 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,927 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,930 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,936 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,940 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,942 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,946 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,953 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,963 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,964 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,978 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,985 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,993 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:25,997 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,005 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,011 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,014 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,138 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,150 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,153 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,155 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,157 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,159 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,161 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,176 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,184 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,187 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,189 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,191 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,192 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,198 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,210 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,342 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,347 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,351 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,358 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,362 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,364 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,368 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,372 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,376 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,392 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,401 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,406 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,409 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,423 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,427 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,431 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,560 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,573 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,578 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,584 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,588 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,592 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,597 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,603 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,618 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,623 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,627 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,629 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,634 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,767 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,777 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,779 utils 3344 140129993737920 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,783 utils 3344 140130010523328 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,785 utils 3344 140130018916032 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,786 utils 3344 140130002130624 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,788 utils 3344 140129985345216 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,790 utils 3344 140129976952512 Bearer token not found or invalid
+ERROR 2023-10-23 17:26:26,808 utils 3344 140130018916032 Bearer token not found or invalid
+DEBUG 2023-10-23 17:26:40,757 views 3344 140129993737920 []
+DEBUG 2023-10-23 17:27:02,829 views 3454 140002698086080 []
+DEBUG 2023-10-23 17:27:02,842 views 3454 140002681300672 []
+DEBUG 2023-10-23 17:27:02,845 views 3454 140002689693376 []
+DEBUG 2023-10-23 17:27:02,875 views 3454 140002698086080 []
+DEBUG 2023-10-23 17:30:14,695 views 3454 140002689693376 []
+ERROR 2023-10-23 17:35:34,271 utils 3454 140002698086080  Invalid data
+            received: dict_keys(['diet'])
+            required: ['diets']
+            missing: {'diets'}
+            
+DEBUG 2023-10-23 18:07:14,807 views 4866 140289175963328 []
+ERROR 2023-10-23 18:08:08,655 utils 6403 140212996564672 Bearer token not found or invalid
+ERROR 2023-10-23 18:08:08,656 utils 6403 140212979779264 Bearer token not found or invalid
+ERROR 2023-10-23 18:08:08,658 utils 6403 140212988171968 Bearer token not found or invalid
+ERROR 2023-10-23 18:08:10,838 utils 6403 140212996564672 Bearer token not found or invalid
+INFO 2023-10-23 18:08:25,447 views 6403 140212996564672 verification code: 651833
+DEBUG 2023-10-23 18:08:46,848 views 6403 140212996564672 []
+DEBUG 2023-10-23 18:08:46,861 views 6403 140212979779264 []
+DEBUG 2023-10-23 18:08:46,861 views 6403 140212988171968 []
+DEBUG 2023-10-23 18:08:46,889 views 6403 140212996564672 []
+ERROR 2023-10-23 18:19:11,821 utils 6946 140490544182976 register failed: user not exists
+
+INFO 2023-10-23 18:19:19,279 views 6946 140490544182976 verification code: 346023
+DEBUG 2023-10-23 18:19:34,129 views 6946 140490544182976 []
+DEBUG 2023-10-23 18:19:34,142 views 6946 140490452231872 []
+DEBUG 2023-10-23 18:19:34,144 views 6946 140490460624576 []
+DEBUG 2023-10-23 18:19:34,174 views 6946 140490544182976 []
+ERROR 2023-10-23 18:19:43,805 utils 6946 140490544182976 serializer is not valid, the error is: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+DEBUG 2023-10-23 18:21:56,530 views 7289 139648971044544 {'drug': 0, 'exercise': 1, 'sugar': 53, 'recorded_at': '2023-10-23 18:21:43', 'timeperiod': 0}
+ERROR 2023-10-23 18:21:56,531 utils 7289 139648971044544 serializer is not valid, the error is: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+DEBUG 2023-10-23 18:24:04,258 views 7481 140247406401216 {'sugar': 4, 'timeperiod': 0, 'exercise': 1, 'recorded_at': '2023-10-23 18:23:49', 'drug': 0}
+ERROR 2023-10-23 18:24:04,259 utils 7481 140247406401216 serializer is not valid, the error is: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+DEBUG 2023-10-23 18:25:43,451 views 7701 140650340566720 {'timeperiod': 0, 'exercise': 1, 'recorded_at': '2023-10-23 18:23:49', 'sugar': 4, 'drug': 0}
+ERROR 2023-10-23 18:25:43,454 utils 7701 140650340566720 serializer is not valid, the error is: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+DEBUG 2023-10-23 18:25:43,463 views 7701 140650332174016 {'drug': 0, 'sugar': 4, 'exercise': 1, 'timeperiod': 7, 'recorded_at': '2023-10-23 18:25:29'}
+ERROR 2023-10-23 18:25:43,466 utils 7701 140650332174016 serializer is not valid, the error is: {'user': [ErrorDetail(string='This field is required.', code='required')]}
+DEBUG 2023-10-23 18:28:33,138 views 7877 139689613104832 []
+DEBUG 2023-10-23 18:30:14,094 views 7877 139689613104832 {'recorded_at': '2023-10-23 18:30:00', 'sugar': 4, 'drug': 0, 'exercise': 1, 'timeperiod': 0}
+ERROR 2023-10-24 19:04:55,887 utils 38340 139764217468608 login failed: password is wrong: Usere21oCLqM
+ERROR 2023-10-24 19:05:42,548 utils 38340 139764217468608 serializer is not valid, the error is: {'email': [ErrorDetail(string='Enter a valid email address.', code='invalid')]}
+ERROR 2023-10-24 19:05:47,845 utils 38340 139764217468608 register failed: user not exists
+
+INFO 2023-10-24 20:24:09,364 views 41536 140158423869120 verification code: 507655
+ERROR 2023-10-24 20:24:10,462 utils 41536 140158415300288 register failed: user: martinlee7829@gmail.com already exists
+ERROR 2023-10-24 20:24:25,920 utils 41536 140158423869120 login failed: verification code is wrong: User3KRW9ozF
+DEBUG 2023-10-24 20:24:52,418 views 41536 140158423869120 []

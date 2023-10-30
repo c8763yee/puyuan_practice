@@ -34,7 +34,7 @@ class Register(viewsets.ViewSet):
         serializer.save(
             verified=False,
             username=random_username(),
-            invite_code="".join(random.choices(ALNUM, k=10)),
+            invite_code=str(random.randint(0, int(1e8))),
         )
 
         return Response({"status": "0", "message": "success"})
@@ -232,7 +232,6 @@ class CheckShare(viewsets.ViewSet):
         records = Models.UserRecord.objects.filter(user=user, relation_type=int(Type))
 
         serialization_records = self.serializer_class(records, many=True).data
-
         return Response(
             {"status": "0", "message": "success", "records": serialization_records}
         )

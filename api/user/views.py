@@ -39,7 +39,7 @@ class UserInfo(viewsets.ViewSet):
         fcm_id = request.data.get("fcm_id", None)
         address = request.data.get("address", None)
 
-        for data in [
+        for data_name in [
             "name",
             "birthday",
             "height",
@@ -50,15 +50,15 @@ class UserInfo(viewsets.ViewSet):
             "fcm_id",
             "address",
         ]:
-            if not locals()[data]:
+            if not locals()[data_name]:
                 continue
 
-            if data == "height":
-                user.init_height = locals()[data]
-            elif data == "weight":
-                user.init_weight = float(locals()[data])
+            if data_name == "height":
+                user.init_height = locals()[data_name]
+            elif data_name == "weight":
+                user.init_weight = float(locals()[data_name])
             else:
-                setattr(user, data, locals()[data])
+                setattr(user, data_name, locals()[data_name])
         user.save()
         return Response(
             {"status": "0", "message": "success"},
@@ -142,6 +142,7 @@ class BloodSugar(viewsets.ViewSet):
 
     @get_userprofile
     def create(self, request, user):
+        logger.debug(request.data)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
@@ -155,9 +156,9 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
     @get_userprofile
     def create(self, request, user):
         try:
-            diets = request.data["diets"]
+            diets = request.data["diet"]
         except KeyError:
-            return FailedResponse.invalid_data(request.data.keys(), ["diets"])
+            return FailedResponse.invalid_data(request.data.keys(), ["diet"])
 
         blood_pressure = Models.BloodPressure.objects.filter(user=user).last()
         weight = Models.Weight.objects.filter(user=user).last()
@@ -166,16 +167,24 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
         ).last()
 
         blood_sugar_value = (
-            model_to_dict(blood_sugar, fields=["sugar"]) if blood_sugar else {}
+            model_to_dict(blood_sugar, fields=["sugar"])
+            if blood_sugar
+            else {"sugar": 0.0}
         )
 
         blood_pressure_value = (
             model_to_dict(blood_pressure, fields=["systolic", "diastolic", "pulse"])
             if blood_pressure
-            else {}
+            else {
+                "systolic": 0,
+                "diastolic": 0,
+                "pulse": 0,
+            }
         )
 
-        weight_value = model_to_dict(weight, fields=["weight"]) if weight else {}
+        weight_value = (
+            model_to_dict(weight, fields=["weight"]) if weight else {"weight": 0.0}
+        )
 
         return Response(
             {

@@ -23,9 +23,13 @@ class DefaultProfileSerializer(DefaultSerializer):
         exclude = ["user"]
 
 
-BloodPressureSerializer = create_serializer(Models.BloodPressure)
-WeightSerializer = create_serializer(Models.Weight)
-BloodSugarSerializer = create_serializer(Models.BloodSugar)
+BloodPressureSerializer = create_serializer(
+    Models.BloodPressure, exclude=["recorded_at", "user"]
+)
+WeightSerializer = create_serializer(Models.Weight, exclude=["recorded_at", "user"])
+BloodSugarSerializer = create_serializer(
+    Models.BloodSugar, exclude=["recorded_at", "user"]
+)
 
 
 class DietSerializer(serializers.ModelSerializer):

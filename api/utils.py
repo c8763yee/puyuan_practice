@@ -64,6 +64,19 @@ class FailedResponse:
     """
 
     @staticmethod
+    def already_sent_friend_request(user_name: str, friend_name: str) -> Response:
+        """
+        Returns a Response object with status code 409 (Conflict) and a message indicating that the friend request has already been sent.
+
+        Returns:
+            Response: A Response object with status code 409 and a message indicating that the friend request has already been sent.
+        """
+        logger.error(
+            f"add friend failed: {user_name} has already sent a friend request to {friend_name}"
+        )
+        return failed_response(status=status.HTTP_409_CONFLICT)
+
+    @staticmethod
     def friend_request_not_exists() -> Response:
         """
         Returns a Response object with status code 404 (Not Found) and a message indicating that the friend request does not exist.

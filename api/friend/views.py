@@ -1,10 +1,9 @@
-import re
-from typing import Type
 from django.shortcuts import render
 from django.forms.models import model_to_dict
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+from api import logger
 from api.utils import get_userprofile, FailedResponse, WarningResponse
 
 from puyuan.const import NOT_ANSWERED, ACCEPT, REFUSE, INVALID_FRIEND_TYPE
@@ -28,27 +27,29 @@ class List(viewsets.ViewSet):
     @get_userprofile
     def list(self, request, user):
         relation_list = []
-        friend_set = set(map(int, user.friend.split(", "))) if user.friend else set()
-        friends = Models.FriendSend.objects.filter(user=user, id__in=friend_set).all()
+        friend_list = list(map(int, user.friend.split(", "))) if user.friend else []
+        friends = Models.FriendSend.objects.filter(
+            user=user, relation__id__in=friend_list
+        ).all()
 
         for friend in friends:
             relation_list.append(
                 {
                     "id": friend.relation.id,  # type: ignore
-                    "username": friend.relation.username,
-                    "account": friend.relation.account,
+                    "name": friend.relation.username,
+                    "relation_type": friend.type,
                 }
             )
-
+        logger.debug(relation_list)
         return Response({"status": "0", "message": "success", "friends": relation_list})
 
 
 class Requests(viewsets.ViewSet):
     @get_userprofile
-    def list(self, request, user):
+    def list(self, request, user):  # me: user
         request_list = []
         requests = Models.FriendSend.objects.filter(
-            user=user, status=NOT_ANSWERED, type__lt=INVALID_FRIEND_TYPE
+            relation=user, status=NOT_ANSWERED, type__lt=INVALID_FRIEND_TYPE
         ).all()
 
         for friend_request in requests:
@@ -59,10 +60,19 @@ class Requests(viewsets.ViewSet):
             request_dict["relation_id"] = friend_request.relation.id  # type: ignore
             request_dict["user"] = {
                 "id": friend_request.relation.id,  # type: ignore
-                "username": friend_request.relation.username,
+                "name": friend_request.relation.username,
                 "account": friend_request.relation.account,
             }
+            request_dict["created_at"] = friend_request.created_at.strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
 
+            request_dict["updated_at"] = friend_request.updated_at.strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+
+            # bool -> int
+            request_dict["read"] = int(request_dict["read"])
             request_list.append(request_dict)
 
         return Response({"status": "0", "message": "success", "requests": request_list})
@@ -86,18 +96,36 @@ class Send(viewsets.ViewSet):
             return FailedResponse.cannot_add_self()
 
         # check if the friend has already been added
-        if friend.id in map(int, user.friends.split(", ")):
+        if user.friend and friend.id in map(int, user.friend.split(", ")):
             return WarningResponse.already_been_friends(user.username, friend.username)
 
-        Models.FriendSend.objects.create(user=user, relation=friend, type=relation_type)
+        request, created = Models.FriendSend.objects.get_or_create(
+            user=user, relation=friend
+        )
+        if created is False:
+            if request.status == ACCEPT:
+                response = WarningResponse.already_been_friends(
+                    user.username, friend.username
+                )
+            else:
+                response = FailedResponse.already_sent_friend_request(
+                    user.username, friend.username
+                )
+            request.delete()
+            return response
+
+        request.type = relation_type
+        request.save()
         return Response({"status": "0", "message": "success"})
 
 
 class Accept(viewsets.ViewSet):
     @get_userprofile
+    # receive: user
+    # send: relation
     def list(self, request, user, inviteid: int):
         try:
-            friend_request = Models.FriendSend.objects.get(id=inviteid)
+            friend_request = Models.FriendSend.objects.get(id=inviteid, relation=user)
         except Models.FriendSend.DoesNotExist:
             return FailedResponse.friend_request_not_exists()
 
@@ -108,13 +136,13 @@ class Accept(viewsets.ViewSet):
         friend_request.read = True
         friend_request.save()
 
-        # add friend to user's friend list
-        user.friend = (
-            user.friend
-            + (", " if user.friend else "")
-            + str(friend_request.relation.id)
-        )
-        user.save()
+        send = friend_request.user
+        if send.friend:
+            send.friend += ", "
+
+        send.friend += str(user.id)
+        send.save()
+
         return Response({"status": "0", "message": "success"})
 
 
@@ -140,14 +168,23 @@ class Remove(viewsets.ViewSet):
     @get_userprofile
     def destroy(self, request, user):
         try:
-            ids = request.data["ids"]
+            ids = request.data["ids[]"]
         except KeyError:
-            return FailedResponse.invalid_data(request.data, ["ids"])
+            return FailedResponse.invalid_data(request.data.keys(), ["ids[]"])
 
-        friend_set = set(map(int, user.friend))
+        if isinstance(ids, int):
+            friend_set = {ids}
+            ids_set = {ids}
+        elif isinstance(ids, list):
+            friend_set = set(map(int, user.friend))
+            ids_set = set(ids)
+        else:
+            return FailedResponse.invalid_datatype()
 
-        Models.FriendSend.objects.filter(id__in=ids).delete()
-        user.friend = ", ".join(friend_set.difference(set(ids)))
+        objects = Models.FriendSend.objects.filter(id__in=friend_set)
+        objects.delete()
+
+        user.friend = ", ".join(friend_set.difference(ids_set))
         user.save()
         return Response({"status": "0", "message": "success"})
 
@@ -166,10 +203,13 @@ class Result(viewsets.ViewSet):
             result_dict["relation_id"] = result.relation.id  # type: ignore
             result_dict["relation"] = {
                 "id": result.relation.id,
-                "username": result.relation.username,
+                "name": result.relation.username,
                 "account": result.relation.account,
             }
+            result_dict["read"] = int(result_dict["read"])
+            result_dict["created_at"] = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
 
+            result_dict["updated_at"] = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
             result_list.append(result_dict)
 
         return Response({"status": "0", "message": "success", "results": result_list})

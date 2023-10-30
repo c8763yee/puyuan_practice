@@ -23,8 +23,8 @@ urlpatterns = [
     path("code", AuthView.Code.as_view({"get": "list"}), name="code"),
     path("list", AuthView.List.as_view({"get": "list"}), name="list"),
     path("requests", AuthView.Requests.as_view({"get": "list"}), name="requests"),
-    path("send/", AuthView.Send.as_view({"post": "create"}), name="send"),
+    path("send", AuthView.Send.as_view({"post": "create"}), name="send"),
     path("<int:inviteid>/", include(AcceptOrRefuse)),
-    path("remove/", AuthView.Remove.as_view({"delete": "destroy"}), name="remove"),
+    path("remove", AuthView.Remove.as_view({"delete": "destroy"}), name="remove"),
     path("results", AuthView.Result.as_view({"get": "list"}), name="result"),
 ]
