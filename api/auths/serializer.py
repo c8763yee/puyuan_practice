@@ -25,4 +25,11 @@ class Login(serializers.ModelSerializer):
 Share = create_serializer(
     Models.UserRecord, apply_fields=["id", "type", "relation_type"]
 )
-CheckShare = create_serializer(Models.UserRecord, exclude=["user", "UID"])
+
+class CheckShare(serializers.ModelSerializer):
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=Models.UserProfile.objects.all(), source="user"
+    )
+    class Meta:
+        model = Models.UserRecord
+        exclude=["user", "UID"]

@@ -23,14 +23,22 @@ class DefaultProfileSerializer(DefaultSerializer):
         exclude = ["user"]
 
 
-BloodPressureSerializer = create_serializer(
-    Models.BloodPressure, exclude=["recorded_at", "user"]
-)
-WeightSerializer = create_serializer(Models.Weight, exclude=["recorded_at", "user"])
-BloodSugarSerializer = create_serializer(
-    Models.BloodSugar, exclude=["recorded_at", "user"]
-)
 
+# rewrite above 3 serializer to class 
+class BloodPressureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Models.BloodPressure
+        exclude = ['user']
+    
+class WeightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Models.Weight
+        exclude = ['user']
+        
+class BloodSugarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Models.BloodSugar
+        exclude = ['user']
 
 class DietSerializer(serializers.ModelSerializer):
     # modify tag field for store list data as string that split by ','
@@ -54,15 +62,19 @@ class DietSerializer(serializers.ModelSerializer):
         return ret
 
 
-A1cSerializer = create_serializer(
-    Models.A1c,
-    foreign_key={
-        "user_id": serializers.PrimaryKeyRelatedField(
-            queryset=UserProfile.objects.all(), source="user"
-        )
-    },
-    exclude=["user"],
-)
+class A1cSerializer(serializers.ModelSerializer):
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=UserProfile.objects.all(), source="user"
+    )
+    a1c = serializers.SerializerMethodField()
+
+    def get_a1c(self, obj):
+        return str(obj.a1c)
+
+    class Meta:
+        model = Models.A1c
+        exclude = ["user"]
+
 
 MedicalSerializer = create_serializer(Models.Medical)
 

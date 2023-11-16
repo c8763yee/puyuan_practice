@@ -17,7 +17,7 @@ class Verification:
 class Share:
     urlpatterns = [
         path('', AuthView.Share.as_view({'post': 'create'})),
-        path('<int:Type>', AuthView.CheckShare.as_view({'get': 'list'}))
+        path('/<int:Type>', AuthView.CheckShare.as_view({'get': 'list'}))
     ]
     
 class Password:
@@ -30,7 +30,7 @@ urlpatterns = [
     path('auth', AuthView.Login.as_view({'post': 'create'}), name='login'),
     path('register', include(Register)),
     path('verification/', include(Verification)),
-    path('share/', include(Share)),
+    path('share', include(Share)),
     path('password/', include(Password)),
     path('news', AuthView.News.as_view({'get': 'list'}), name='news'),
 ]

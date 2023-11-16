@@ -10,7 +10,7 @@ from puyuan.const import MINUTE, DAY, ALNUM
 from puyuan.settings import EMAIL_HOST_USER
 
 from api import logger
-from api.utils import FailedResponse, get_userprofile, random_username, WarningResponse
+from api.utils import FailedResponse, get_userprofile, random_username, WarningResponse, log_json_data
 
 from . import serializer as SerializerModule, models as Models
 
@@ -225,13 +225,14 @@ class Share(viewsets.ViewSet):
 
 
 class CheckShare(viewsets.ViewSet):
-    serializer_class = SerializerModule.CheckShare
+    # serializer_class = SerializerModule.CheckShare
 
     @get_userprofile
     def list(self, request, user, Type):
-        records = Models.UserRecord.objects.filter(user=user, relation_type=int(Type))
+        # records = Models.UserRecord.objects.filter(user=user, relation_type=int(Type))
 
-        serialization_records = self.serializer_class(records, many=True).data
+        # serialization_records = self.serializer_class(records, many=True).data
+        # log_json_data(serialization_records, prefix="CheckShare")
         return Response(
-            {"status": "0", "message": "success", "records": serialization_records}
+            {"status": "0", "message": "success", "records": []}
         )

@@ -1,4 +1,3 @@
-from functools import partial
 import re
 import json
 from typing import Type
@@ -10,7 +9,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from api import logger
-from api.utils import get_userprofile, FailedResponse
+from api.utils import get_userprofile, FailedResponse, log_json_data
 
 from puyuan.const import DEFAULT_DIARY_DICT, INVALID_DRUG_TYPE
 
@@ -53,6 +52,7 @@ class UserInfo(viewsets.ViewSet):
             if not locals()[data_name]:
                 continue
 
+            # Because of the different data type of height and weight, we need to store it as other name and type in database
             if data_name == "height":
                 user.init_height = locals()[data_name]
             elif data_name == "weight":
@@ -142,7 +142,6 @@ class BloodSugar(viewsets.ViewSet):
 
     @get_userprofile
     def create(self, request, user):
-        logger.debug(request.data)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
@@ -198,9 +197,15 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
 
     @get_userprofile
     def destroy(self, request, user, pk=None):
-        blood_pressure_to_delete = request.data.get("blood_pressure", [])
-        weight_to_delete = request.data.get("weights", [])
-        blood_sugar_to_delete = request.data.get("blood_sugars", [])
+        try:
+            delete_object = request.data["deleteObject"]
+        except KeyError:
+            return FailedResponse.invalid_data(request.data.keys(), ["deleteObject"])
+
+        blood_pressure_to_delete: list = delete_object.get("blood_pressures", [])
+        weight_to_delete = delete_object.get("weights", [])
+        blood_sugar_to_delete = delete_object.get("blood_sugars", [])
+        diets_to_delete = delete_object.get("diets", [])
 
         if any(
             isinstance(to_delete, list) is False
@@ -208,18 +213,15 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
                 blood_pressure_to_delete,
                 weight_to_delete,
                 blood_sugar_to_delete,
+                diets_to_delete,
             ]
         ):
             return FailedResponse.invalid_datatype()
 
-        Models.BloodPressure.objects.filter(
-            user=user, id__in=blood_pressure_to_delete
-        ).delete()
-        Models.Weight.objects.filter(user=user, id__in=weight_to_delete).delete()
-        Models.BloodSugar.objects.filter(
-            user=user, id__in=blood_sugar_to_delete
-        ).delete()
-
+        Models.BloodPressure.objects.filter(id__in=blood_pressure_to_delete).delete()
+        Models.Weight.objects.filter(id__in=weight_to_delete).delete()
+        Models.BloodSugar.objects.filter(id__in=blood_sugar_to_delete).delete()
+        Models.Diet.objects.filter(id__in=diets_to_delete).delete()
         return Response(
             {"status": "0", "message": "success"},
         )
@@ -228,44 +230,6 @@ class Record(viewsets.ViewSet):  # API No.18 and 21
 class Diary(viewsets.ViewSet):
     @get_userprofile
     def list(self, request, user):
-        return_data = []
-        self.idx = 0
-
-        def add_data(
-            model: Type[django_model],
-            data_type: str,
-            fields: list[str] = [
-                "user"
-            ],  #  every model in this app must have user field
-            exclude: list[str] = [],
-            extra_arguments: dict[str, list[str]] = {},
-        ):
-            instances = model.objects.filter(user=user).all()
-            for instance in instances:
-                source_dict = DEFAULT_DIARY_DICT.copy()
-                instance_dict = (
-                    model_to_dict(instance, fields=fields)
-                    if exclude == []
-                    else model_to_dict(instance, exclude=exclude)
-                )
-
-                for extra_field, extra_field_value in extra_arguments.items():
-                    instance_dict[extra_field] = {
-                        value: instance_attribute
-                        for value in extra_field_value
-                        if (instance_attribute := getattr(instance, value, None))
-                        and instance_attribute not in instance_dict.keys()
-                    }
-
-                source_dict.update(
-                    user_id=user.id,
-                    type=data_type,
-                    **instance_dict,
-                )
-                source_dict["id"] = self.idx
-                self.idx += 1
-                return_data.append(source_dict)
-
         try:
             date_time = request.query_params["date"]
         except KeyError:
@@ -273,23 +237,77 @@ class Diary(viewsets.ViewSet):
 
         if re.match(r"^\d{4}-\d{2}-\d{2}$", date_time) is None:
             return FailedResponse.invalid_date_format(date_time, "%Y-%m-%d")
+        return_data = []
 
-        # we only check startswith for getting data since the recorded_at is timezone.now()
-        # and we only need to check the date(YYYY-MM-DD)
+        # --------------------- add data to return_data for each model ---------------------
+        blood_pressure_data_all = Models.BloodPressure.objects.filter(
+            user=user, recorded_at__startswith=date_time
+        ).all()
+        for blood_pressure_data in blood_pressure_data_all:
+            source_dict = DEFAULT_DIARY_DICT.copy()
+            source_dict.update(
+                user_id=user.id,
+                type="blood_pressure",
+                **model_to_dict(blood_pressure_data, exclude=["user"]),
+            )
+            source_dict["id"] = blood_pressure_data.id
 
-        add_data(Models.BloodPressure, "blood_pressure", exclude=["user"])
-        add_data(Models.BloodSugar, "blood_sugar", exclude=["user"])
-        add_data(
-            Models.Diet,
-            "diet",
-            exclude=["user", "lat", "lng", "tag", "image"],
-            extra_arguments={
-                "location": ["lat", "lng"],
-                "tags": ["name", "message"],
-            },
-        )
-        add_data(Models.Weight, "weight", exclude=["user"])
+            return_data.append(source_dict)
 
+        blood_sugar_data_all = Models.BloodSugar.objects.filter(
+            user=user, recorded_at__startswith=date_time
+        ).all()
+        for blood_sugar_data in blood_sugar_data_all:
+            source_dict = DEFAULT_DIARY_DICT.copy()
+            source_dict.update(
+                user_id=user.id,
+                type="blood_sugar",
+                **model_to_dict(blood_sugar_data, exclude=["user"]),
+            )
+            source_dict["id"] = blood_sugar_data.id
+
+            return_data.append(source_dict)
+
+        weight_data_all = Models.Weight.objects.filter(
+            user=user, recorded_at__startswith=date_time
+        ).all()
+        for weight_data in weight_data_all:
+            source_dict = DEFAULT_DIARY_DICT.copy()
+            source_dict.update(
+                user_id=user.id,
+                type="weight",
+                **model_to_dict(weight_data, exclude=["user"]),
+            )
+            source_dict["id"] = weight_data.id
+
+            return_data.append(source_dict)
+
+        diet_data_all = Models.Diet.objects.filter(
+            user=user, recorded_at__startswith=date_time
+        ).all()
+        for diet_data in diet_data_all:
+            source_dict = DEFAULT_DIARY_DICT.copy()
+            source_dict.update(
+                user_id=user.id,
+                type="diet",
+                **model_to_dict(
+                    diet_data, exclude=["user", "lat", "lng", "tag", "image"]
+                ),
+                location={
+                    "lat": str(diet_data.lat),
+                    "lng": str(diet_data.lng),
+                },
+                tags={
+                    "name": diet_data.tag.split(", "),
+                    "message": "",
+                },
+            )
+            source_dict["id"] = diet_data.id
+
+            return_data.append(source_dict)
+
+        # --------------------- END ---------------------
+        log_json_data(return_data, prefix="Diary:")
         return Response({"status": "0", "message": "success", "diary": return_data})
 
 
@@ -298,12 +316,15 @@ class Diet(viewsets.ViewSet):
 
     @get_userprofile
     def create(self, request, user):
+        request.data["tag"] = request.data.pop("tag[]")
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
 
         serializer.save(user=user)
-        return Response({"status": "0", "message": "success"})
+        return Response(
+            {"status": "0", "message": "success", "image_url": "sdfkjfldakjsdfkl"}
+        )
 
 
 class A1c(viewsets.ViewSet):
@@ -318,16 +339,20 @@ class A1c(viewsets.ViewSet):
 
     @get_userprofile
     def create(self, request, user):
-        serializer = self.serializer_class(data=request.data, partial=True)
-        if serializer.is_valid() is False:
-            return FailedResponse.serializer_is_not_valid(serializer)
+        try:
+            a1c = request.data["a1c"]
+            recorded_at = request.data["recorded_at"]
+        except KeyError:
+            return FailedResponse.invalid_data(
+                request.data.keys(), ["a1c", "recorded_at"]
+            )
 
-        serializer.save(user=user)
+        Models.A1c.objects.create(user=user, a1c=a1c, recorded_at=recorded_at)
         return Response({"status": "0", "message": "success"})
 
     @get_userprofile
     def destroy(self, request, user, pk=None):
-        ids = request.data.get("ids", [])
+        ids = request.data.get("ids[]", [])
         if isinstance(ids, list) is False:
             return FailedResponse.invalid_datatype()
 
@@ -397,13 +422,13 @@ class Drug(viewsets.ViewSet):
         serializer = self.serializer_class(data=request.data, partial=True)
         if serializer.is_valid() is False:
             return FailedResponse.serializer_is_not_valid(serializer)
-
+        print(serializer.validated_data)
         serializer.save(user=user)
         return Response({"status": "0", "message": "success"})
 
     @get_userprofile
     def destroy(self, request, user, pk=None):
-        ids = request.data.get("ids", [])
+        ids = request.data.get("ids[]", [])
         if isinstance(ids, list) is False:
             return FailedResponse.invalid_datatype()
 

@@ -429,6 +429,10 @@ def get_userprofile(view_func):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
         else:
+            log_json_data(
+                request.data,
+                prefix=f"route: {request.path} requested by user: {user.email} containing these data:",
+            )
             return view_func(instance, request, user, *args, **kwargs)
 
     return _wrapper_view
@@ -438,9 +442,10 @@ def random_username(k: int = 8, prefix="User") -> str:
     return f"{prefix}{''.join(random.choices(ALNUM, k=k))}"
 
 
-def debug_request_data(data: dict):
+def log_json_data(data: dict | list[dict], prefix: str = ""):
     logger.debug(
-        json.dumps(
+        (prefix + "\n" if prefix else "")
+        + json.dumps(
             data,
             indent=4,
             ensure_ascii=False,

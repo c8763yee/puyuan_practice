@@ -40,7 +40,6 @@ class List(viewsets.ViewSet):
                     "relation_type": friend.type,
                 }
             )
-        logger.debug(relation_list)
         return Response({"status": "0", "message": "success", "friends": relation_list})
 
 
@@ -49,9 +48,8 @@ class Requests(viewsets.ViewSet):
     def list(self, request, user):  # me: user
         request_list = []
         requests = Models.FriendSend.objects.filter(
-            relation=user, status=NOT_ANSWERED, type__lt=INVALID_FRIEND_TYPE
+            relation=user, status=NOT_ANSWERED, read=False
         ).all()
-
         for friend_request in requests:
             request_dict = model_to_dict(friend_request, exclude=["user", "relation"])
 
@@ -74,7 +72,7 @@ class Requests(viewsets.ViewSet):
             # bool -> int
             request_dict["read"] = int(request_dict["read"])
             request_list.append(request_dict)
-
+        print(request_list)
         return Response({"status": "0", "message": "success", "requests": request_list})
 
 
@@ -121,8 +119,8 @@ class Send(viewsets.ViewSet):
 
 class Accept(viewsets.ViewSet):
     @get_userprofile
-    # receive: user
-    # send: relation
+    # receive: relation
+    # send: user
     def list(self, request, user, inviteid: int):
         try:
             friend_request = Models.FriendSend.objects.get(id=inviteid, relation=user)
@@ -142,6 +140,11 @@ class Accept(viewsets.ViewSet):
 
         send.friend += str(user.id)
         send.save()
+
+        if user.friend:
+            user.friend += ", "
+        user.friend += str(send.id)
+        user.save()
 
         return Response({"status": "0", "message": "success"})
 
@@ -186,6 +189,16 @@ class Remove(viewsets.ViewSet):
 
         user.friend = ", ".join(friend_set.difference(ids_set))
         user.save()
+        friends_to_remove = Models.UserProfile.objects.filter(id__in=ids_set)
+        for friend in friends_to_remove:
+            relative_friend = friend.friend.split(", ")
+            if str(user.id) not in relative_friend:
+                continue
+
+            relative_friend.remove(str(user.id))
+            friend.friend = ", ".join(relative_friend)
+            friend.save()
+
         return Response({"status": "0", "message": "success"})
 
 
@@ -194,7 +207,6 @@ class Result(viewsets.ViewSet):
     def list(self, request, user):
         result_list = []
         results = Models.FriendSend.objects.filter(user=user, read=True).all()
-
         for result in results:
             result_dict = model_to_dict(result, exclude=["user", "relation"])
 
