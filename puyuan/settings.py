@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-@+64*b@sgoi%p%#@n$^bb!p65-vpsr#zg_zaj8=x54vabbp-i+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ["192.168.50.241", "localhost", '192.168.1.154']
+ALLOWED_HOSTS = ["192.168.50.241", "localhost", "192.168.1.154"]
 
 # Application definition
 
@@ -113,7 +113,14 @@ TIME_ZONE = "Asia/Taipei"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
+
+DATE_FORMAT = "%Y-%m-%d"
+DATE_INPUT_FORMATS = ["%Y-%m-%d"]
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATETIME_INPUT_FORMATS = ["%Y-%m-%d %H:%M:%S"]
+
+USE_L10N = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -171,6 +178,3 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 APPEND_SLASH = False
-
-DATE_FORMAT = "%Y-%m-%d"
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"

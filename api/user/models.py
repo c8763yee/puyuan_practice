@@ -76,7 +76,6 @@ class Diet(BaseUserData):
     lat = models.FloatField()
     lng = models.FloatField()
     recorded_at = models.CharField(max_length=100)
-    
 
 
 class A1c(BaseUserData):
@@ -107,5 +106,5 @@ class Care(BaseUserData):
     reply_id = models.IntegerField(default=0)
     member_id = models.IntegerField(default=0)
     message = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.CharField(max_length=100)
+    updated_at = models.CharField(max_length=100)

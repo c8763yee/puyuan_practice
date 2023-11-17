@@ -17767,3 +17767,598 @@ DEBUG 2023-11-16 12:26:04,627 utils 28390 140477686908608 route: /api/user/badge
 {
     "badge": 0
 }
+ERROR 2023-11-17 13:38:01,164 utils 5529 139624844142272 register failed: user not exists
+
+ERROR 2023-11-17 13:38:18,363 utils 5529 139624844142272 register failed: user not exists
+
+INFO 2023-11-17 13:38:25,440 views 5529 139624844142272 verification code: 594259
+INFO 2023-11-17 13:38:34,134 views 5529 139624844142272 verification code: 505322
+DEBUG 2023-11-17 13:38:41,493 utils 5529 139624844142272 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,545 utils 5529 139624844142272 route: /api/user requested by user: a@a.com containing these data:
+{
+    "birthday": "",
+    "name": "",
+    "height": 0,
+    "fcm_id": "BC4577B5-33D8-4BDA-8551-09C6DC488C8E",
+    "phone": "",
+    "email": "",
+    "gender": false,
+    "weight": "",
+    "address": ""
+}
+DEBUG 2023-11-17 13:38:41,570 utils 5529 139624844142272 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,611 utils 5529 139624844142272 route: /api/user/medical requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,644 utils 5529 139624844142272 route: /api/user/a1c requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,660 utils 5529 139624844142272 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,675 utils 5529 139624844142272 route: /api/share/0 requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,681 utils 5529 139624834524864 route: /api/share/1 requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,686 utils 5529 139624622061248 route: /api/share/2 requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,701 utils 5529 139624844142272 route: /api/news requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,713 utils 5529 139624844142272 route: /api/friend/list requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,835 utils 5529 139624844142272 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,842 utils 5529 139624834524864 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,868 utils 5529 139624622061248 route: /api/news requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,880 utils 5529 139624844142272 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:38:41,882 utils 5529 139624613668544 route: /api/user/diary requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:41,903 utils 5529 139624613668544 Diary:
+[]
+DEBUG 2023-11-17 13:38:43,554 utils 5529 139624844142272 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:43,560 utils 5529 139624834524864 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:43,577 utils 5529 139624834524864 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:38:47,334 utils 5529 139624844142272 route: /api/user/care requested by user: a@a.com containing these data:
+{
+    "message": "shah’s"
+}
+DEBUG 2023-11-17 13:38:47,362 utils 5529 139624844142272 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:38:47,381 utils 5529 139624844142272 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:40:15,532 utils 5602 139954271823552 route: /api/user/diary requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:15,545 utils 5602 139954297001664 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:15,546 utils 5602 139954288608960 route: /api/news requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:15,563 utils 5602 139954280216256 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:15,572 utils 5602 139954271823552 Diary:
+[]
+DEBUG 2023-11-17 13:40:15,593 utils 5602 139954280216256 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:40:15,616 utils 5602 139954297001664 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:40:16,243 utils 5602 139954280216256 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:16,245 utils 5602 139954297001664 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:16,262 utils 5602 139954297001664 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:40:20,924 utils 5602 139954297001664 route: /api/user/care requested by user: a@a.com containing these data:
+{
+    "message": "Xbox "
+}
+DEBUG 2023-11-17 13:40:20,955 utils 5602 139954297001664 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:40:20,967 utils 5602 139954297001664 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:42:59,362 utils 5817 139670941554368 route: /api/news requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:42:59,364 utils 5817 139670717458112 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:42:59,365 utils 5817 139670949947072 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:42:59,365 utils 5817 139670725850816 route: /api/user/diary requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:42:59,372 utils 5817 139670725850816 Diary:
+[]
+DEBUG 2023-11-17 13:42:59,389 utils 5817 139670949947072 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:42:59,390 utils 5817 139670941554368 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:43:00,573 utils 5817 139670941554368 route: /api/user/care requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:43:00,574 utils 5817 139670949947072 route: /api/user requested by user: a@a.com containing these data:
+{}
+DEBUG 2023-11-17 13:43:00,645 utils 5817 139670949947072 route: /api/user/badge requested by user: a@a.com containing these data:
+{
+    "badge": 0
+}
+WARNING 2023-11-17 13:51:51,058 utils 6376 140487810692800 Token not found
+ERROR 2023-11-17 13:51:51,058 utils 6376 140487810692800 failed to get user by token. this may be caused by:
+                1. token expired
+                2. user is not verified
+                3. user forgot password
+                
+WARNING 2023-11-17 13:51:51,565 utils 6376 140487802300096 Token not found
+ERROR 2023-11-17 13:51:51,565 utils 6376 140487802300096 failed to get user by token. this may be caused by:
+                1. token expired
+                2. user is not verified
+                3. user forgot password
+                
+WARNING 2023-11-17 13:51:51,569 utils 6376 140487785514688 Token not found
+ERROR 2023-11-17 13:51:51,569 utils 6376 140487785514688 failed to get user by token. this may be caused by:
+                1. token expired
+                2. user is not verified
+                3. user forgot password
+                
+WARNING 2023-11-17 13:51:51,573 utils 6376 140487793907392 Token not found
+ERROR 2023-11-17 13:51:51,574 utils 6376 140487793907392 failed to get user by token. this may be caused by:
+                1. token expired
+                2. user is not verified
+                3. user forgot password
+                
+INFO 2023-11-17 13:52:03,508 views 6376 140487810692800 verification code: 937372
+DEBUG 2023-11-17 13:52:44,348 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,476 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "name": "",
+    "email": "",
+    "weight": "",
+    "birthday": "",
+    "address": "",
+    "phone": "",
+    "fcm_id": "A083D59D-DB38-45EC-A4C8-E76B27782250",
+    "height": 0,
+    "gender": false
+}
+DEBUG 2023-11-17 13:52:44,506 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,555 utils 6376 140487810692800 route: /api/user/medical requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,574 utils 6376 140487810692800 route: /api/user/a1c requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,587 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,603 utils 6376 140487810692800 route: /api/share/0 requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,609 utils 6376 140487793907392 route: /api/share/2 requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,610 utils 6376 140487785514688 route: /api/share/1 requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,623 utils 6376 140487810692800 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,636 utils 6376 140487810692800 route: /api/friend/list requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,762 utils 6376 140487802300096 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,766 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,776 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,783 utils 6376 140487785514688 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:44,790 utils 6376 140487802300096 Diary:
+[]
+DEBUG 2023-11-17 13:52:44,812 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:52:46,105 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:46,114 utils 6376 140487785514688 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:46,141 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:52:49,166 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "message": "x"
+}
+DEBUG 2023-11-17 13:52:49,229 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:49,249 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:52:51,624 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "message": "y"
+}
+DEBUG 2023-11-17 13:52:51,736 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:51,763 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:52:54,800 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "message": "a"
+}
+DEBUG 2023-11-17 13:52:54,893 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:52:54,921 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:02,082 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:02,095 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:02,103 utils 6376 140487785514688 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:02,137 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:02,139 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:06,780 utils 6376 140487810692800 route: /api/user/default requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "sugar_morning_min": 0,
+    "bmi_min": 0,
+    "sugar_evening_max": 0,
+    "sugar_before_min": 0,
+    "sugar_morning_max": 0,
+    "body_fat_min": 1,
+    "systolic_min": 0,
+    "diastolic_min": 0,
+    "weight_max": 0,
+    "pulse_min": 0,
+    "bmi_max": 0,
+    "sugar_before_max": 0,
+    "sugar_after_max": 0,
+    "sugar_after_min": 0,
+    "systolic_max": 0,
+    "pulse_max": 0,
+    "body_fat_max": 10,
+    "sugar_evening_min": 0,
+    "diastolic_max": 0,
+    "weight_min": 0
+}
+DEBUG 2023-11-17 13:53:07,468 utils 6376 140487785514688 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:07,481 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:07,484 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:07,509 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:07,525 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:10,378 utils 6376 140487785514688 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:10,383 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:10,385 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:10,418 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:10,437 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:19,474 utils 6376 140487810692800 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:19,477 utils 6376 140487802300096 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:19,482 utils 6376 140487810692800 Diary:
+[]
+DEBUG 2023-11-17 13:53:19,485 utils 6376 140487802300096 Diary:
+[]
+DEBUG 2023-11-17 13:53:20,212 utils 6376 140487785514688 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:20,215 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:20,221 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:20,298 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:20,299 utils 6376 140487802300096 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:23,646 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:23,650 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:23,670 utils 6376 140487785514688 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:23,684 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:23,700 utils 6376 140487802300096 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:53:24,424 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:24,426 utils 6376 140487802300096 route: /api/friend/code requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:24,428 utils 6376 140487785514688 route: /api/friend/results requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:24,441 utils 6376 140487802300096 route: /api/friend/requests requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:26,963 utils 6376 140487802300096 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:26,972 utils 6376 140487802300096 Diary:
+[]
+DEBUG 2023-11-17 13:53:27,850 utils 6376 140487802300096 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:53:27,859 utils 6376 140487802300096 Diary:
+[]
+DEBUG 2023-11-17 13:54:37,716 utils 6376 140487802300096 route: /api/user/diet requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "lat": 0,
+    "tag[]": [
+        "label",
+        "label",
+        "label"
+    ],
+    "description": "disks racks",
+    "image": 1,
+    "recorded_at": "2023-11-17 19:50:31",
+    "meal": 2,
+    "lng": 0
+}
+DEBUG 2023-11-17 13:54:37,784 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:54:37,790 utils 6376 140487785514688 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:54:37,793 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:54:37,796 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:54:37,799 utils 6376 140487785514688 Diary:
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "systolic": 0,
+        "diastolic": 0,
+        "pulse": 0,
+        "weight": 0.0,
+        "body_fat": 0.0,
+        "bmi": 0.0,
+        "sugar": 0.0,
+        "exercise": 0,
+        "drug": 0,
+        "timeperiod": 0,
+        "description": "disks racks",
+        "meal": 2,
+        "tag": [
+            {
+                "name": [],
+                "message": ""
+            }
+        ],
+        "image": [
+            "http://www.example.com"
+        ],
+        "location": {
+            "lat": "0.0",
+            "lng": "0.0"
+        },
+        "reply": "",
+        "recorded_at": "2023-11-17 19:50:31",
+        "type": "diet",
+        "tags": {
+            "name": [
+                "label",
+                "label",
+                "label"
+            ],
+            "message": ""
+        }
+    }
+]
+DEBUG 2023-11-17 13:54:37,817 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:54:37,837 utils 6376 140487802300096 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:55:03,676 utils 6376 140487785514688 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:03,685 utils 6376 140487793907392 route: /api/user/diary requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:03,689 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:03,695 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:03,710 utils 6376 140487793907392 Diary:
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "systolic": 0,
+        "diastolic": 0,
+        "pulse": 0,
+        "weight": 0.0,
+        "body_fat": 0.0,
+        "bmi": 0.0,
+        "sugar": 0.0,
+        "exercise": 0,
+        "drug": 0,
+        "timeperiod": 0,
+        "description": "disks racks",
+        "meal": 2,
+        "tag": [
+            {
+                "name": [],
+                "message": ""
+            }
+        ],
+        "image": [
+            "http://www.example.com"
+        ],
+        "location": {
+            "lat": "0.0",
+            "lng": "0.0"
+        },
+        "reply": "",
+        "recorded_at": "2023-11-17 19:50:31",
+        "type": "diet",
+        "tags": {
+            "name": [
+                "label",
+                "label",
+                "label"
+            ],
+            "message": ""
+        }
+    }
+]
+DEBUG 2023-11-17 13:55:03,720 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:55:03,735 utils 6376 140487802300096 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:55:05,476 utils 6376 140487785514688 route: /api/friend/results requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:05,477 utils 6376 140487802300096 route: /api/friend/code requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:05,487 utils 6376 140487810692800 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:05,528 utils 6376 140487802300096 route: /api/friend/requests requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:06,593 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:06,600 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:06,623 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:55:30,149 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "birthday": "",
+    "phone": "0987654321",
+    "email": "rrrrr4413@gmail.com",
+    "address": "vgf",
+    "weight": "63.0",
+    "name": "The only way to get ",
+    "gender": false,
+    "height": 487,
+    "fcm_id": ""
+}
+DEBUG 2023-11-17 13:55:30,214 utils 6376 140487785514688 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:30,217 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:30,221 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:55:30,246 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:55:30,247 utils 6376 140487802300096 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:23,993 utils 6376 140487785514688 route: /api/user/medical requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "anti_hypertensives": false,
+    "insulin": false,
+    "oad": false,
+    "diabetes_type": 2
+}
+DEBUG 2023-11-17 13:56:30,866 utils 6376 140487785514688 route: /api/user/a1c requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "a1c": 12,
+    "recorded_at": "2023-11-17 13:56:29"
+}
+DEBUG 2023-11-17 13:56:30,918 utils 6376 140487785514688 route: /api/user/a1c requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:39,468 utils 6376 140487785514688 route: /api/user/medical requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "diabetes_type": 2,
+    "oad": false,
+    "insulin": false,
+    "anti_hypertensives": false
+}
+DEBUG 2023-11-17 13:56:39,500 utils 6376 140487802300096 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:39,506 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:39,511 utils 6376 140487793907392 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:39,538 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:39,540 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:41,416 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:41,425 utils 6376 140487802300096 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:41,427 utils 6376 140487785514688 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:41,523 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:41,526 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:44,397 utils 6376 140487810692800 route: /api/user/care requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:44,399 utils 6376 140487802300096 route: /api/news requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:44,407 utils 6376 140487785514688 route: /api/user requested by user: rrrrr4413@gmail.com containing these data:
+{}
+DEBUG 2023-11-17 13:56:44,425 utils 6376 140487810692800 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}
+DEBUG 2023-11-17 13:56:44,443 utils 6376 140487785514688 route: /api/user/badge requested by user: rrrrr4413@gmail.com containing these data:
+{
+    "badge": 0
+}

@@ -5,6 +5,7 @@ from typing import Type
 from django.shortcuts import render
 from django.forms.models import model_to_dict
 from django.db.models import Model as django_model
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -453,10 +454,19 @@ class Care(viewsets.ViewSet):
 
     @get_userprofile
     def create(self, request, user):
-        serializer = self.serializer_class(data=request.data, partial=True)
-        if serializer.is_valid() is False:
-            return FailedResponse.serializer_is_not_valid(serializer)
-        serializer.save(user=user, reply_id=1)
+        try:
+            message = request.data["message"]
+        except KeyError:
+            return FailedResponse.invalid_data(request.data.keys(), ["message"])
+        now = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+        Models.Care.objects.create(
+            user=user,
+            message=message,
+            created_at=now,
+            updated_at=now,
+            member_id=user.id,
+            reply_id=1,
+        )
         return Response({"status": "0", "message": "success"})
 
 
